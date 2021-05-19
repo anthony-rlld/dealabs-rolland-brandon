@@ -22,6 +22,18 @@ class Vote
      */
     private $notation;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="votesList")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $userId;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Deal::class, inversedBy="votesList")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $dealId;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -36,6 +48,30 @@ class Vote
     public function setNotation(int $notation): self
     {
         $this->notation = $notation;
+
+        return $this;
+    }
+
+    public function getUserId(): ?User
+    {
+        return $this->userId;
+    }
+
+    public function setUserId(?User $userId): self
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    public function getDealId(): ?Deal
+    {
+        return $this->dealId;
+    }
+
+    public function setDealId(?Deal $dealId): self
+    {
+        $this->dealId = $dealId;
 
         return $this;
     }

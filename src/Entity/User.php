@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -40,6 +42,22 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $name;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="userId", orphanRemoval=true)
+     */
+    private $commentsList;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Vote::class, mappedBy="userId", orphanRemoval=true)
+     */
+    private $votesList;
+
+    public function __construct()
+    {
+        $this->commentsList = new ArrayCollection();
+        $this->votesList = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -130,6 +148,66 @@ class User implements UserInterface
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getCommentsList(): Collection
+    {
+        return $this->commentsList;
+    }
+
+    public function addCommentsList(Comment $commentsList): self
+    {
+        if (!$this->commentsList->contains($commentsList)) {
+            $this->commentsList[] = $commentsList;
+            $commentsList->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentsList(Comment $commentsList): self
+    {
+        if ($this->commentsList->removeElement($commentsList)) {
+            // set the owning side to null (unless already changed)
+            if ($commentsList->getUserId() === $this) {
+                $commentsList->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Vote[]
+     */
+    public function getVotesList(): Collection
+    {
+        return $this->votesList;
+    }
+
+    public function addVotesList(Vote $votesList): self
+    {
+        if (!$this->votesList->contains($votesList)) {
+            $this->votesList[] = $votesList;
+            $votesList->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVotesList(Vote $votesList): self
+    {
+        if ($this->votesList->removeElement($votesList)) {
+            // set the owning side to null (unless already changed)
+            if ($votesList->getUserId() === $this) {
+                $votesList->setUserId(null);
+            }
+        }
 
         return $this;
     }

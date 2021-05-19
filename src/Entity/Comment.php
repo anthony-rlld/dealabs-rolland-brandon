@@ -20,7 +20,7 @@ class Comment
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $username;
+    private $title;
 
     /**
      * @ORM\Column(type="date")
@@ -43,19 +43,25 @@ class Comment
      */
     private $dealId;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commentsList")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $userId;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUsername(): ?string
+    public function getTitle(): ?string
     {
-        return $this->username;
+        return $this->title;
     }
 
-    public function setUsername(string $username): self
+    public function setTitle(string $title): self
     {
-        $this->username = $username;
+        $this->title = $title;
 
         return $this;
     }
@@ -104,6 +110,18 @@ class Comment
     public function setDealId(?Deal $dealId): self
     {
         $this->dealId = $dealId;
+
+        return $this;
+    }
+
+    public function getUserId(): ?User
+    {
+        return $this->userId;
+    }
+
+    public function setUserId(?User $userId): self
+    {
+        $this->userId = $userId;
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\WebsiteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,6 +24,16 @@ class Website
      */
     private $name;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Deal::class, mappedBy="websiteId")
+     */
+    private $dealsList;
+
+    public function __construct()
+    {
+        $this->dealsList = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -35,6 +47,36 @@ class Website
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Deal[]
+     */
+    public function getDealsList(): Collection
+    {
+        return $this->dealsList;
+    }
+
+    public function addDealsList(Deal $dealsList): self
+    {
+        if (!$this->dealsList->contains($dealsList)) {
+            $this->dealsList[] = $dealsList;
+            $dealsList->setWebsiteId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDealsList(Deal $dealsList): self
+    {
+        if ($this->dealsList->removeElement($dealsList)) {
+            // set the owning side to null (unless already changed)
+            if ($dealsList->getWebsiteId() === $this) {
+                $dealsList->setWebsiteId(null);
+            }
+        }
 
         return $this;
     }

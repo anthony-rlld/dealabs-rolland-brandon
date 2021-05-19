@@ -6,9 +6,11 @@ use App\Repository\DealRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\MappedSuperclass;
 
 /**
  * @ORM\Entity(repositoryClass=DealRepository::class)
+ * @MappedSuperclass
  */
 class Deal
 {
@@ -55,10 +57,21 @@ class Deal
      */
     private $commentsList;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Vote::class, mappedBy="dealId", orphanRemoval=true)
+     */
+    private $votesList;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Website::class, inversedBy="dealsList")
+     */
+    private $websiteId;
+
     public function __construct()
     {
         $this->groupsList = new ArrayCollection();
         $this->commentsList = new ArrayCollection();
+        $this->votesList = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -177,6 +190,48 @@ class Deal
                 $commentsList->setDealId(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Vote[]
+     */
+    public function getVotesList(): Collection
+    {
+        return $this->votesList;
+    }
+
+    public function addVotesList(Vote $votesList): self
+    {
+        if (!$this->votesList->contains($votesList)) {
+            $this->votesList[] = $votesList;
+            $votesList->setDealId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVotesList(Vote $votesList): self
+    {
+        if ($this->votesList->removeElement($votesList)) {
+            // set the owning side to null (unless already changed)
+            if ($votesList->getDealId() === $this) {
+                $votesList->setDealId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getWebsiteId(): ?Website
+    {
+        return $this->websiteId;
+    }
+
+    public function setWebsiteId(?Website $websiteId): self
+    {
+        $this->websiteId = $websiteId;
 
         return $this;
     }

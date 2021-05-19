@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=PromotionnalCodeRepository::class)
  */
-class PromotionnalCode
+class PromotionnalCode extends Deal
 {
     /**
      * @ORM\Id
