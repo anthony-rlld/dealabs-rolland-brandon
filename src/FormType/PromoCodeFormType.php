@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Form;
 
-use App\Entity\GoodDeal;
+namespace App\FormType;
+
+
 use App\Entity\Group;
+use App\Entity\PromotionnalCode;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class GoodDealFormType extends AbstractType
+class PromoCodeFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -34,23 +34,18 @@ class GoodDealFormType extends AbstractType
             ])
             ->add('link', TextType::class,[
                 'required' => true,
-                'label' => 'Lien du deal :',
+                'label' => 'Lien du code promo :',
                 'attr' => array('class'=> 'form-control mb-2')
             ])
-            ->add('actualPrice', IntegerType::class,[
-                'required' => true,
-                'label' => 'Prix actuel :',
-                'attr' => array('class'=> 'form-control mb-2')
-            ])
-            ->add('newPrice',IntegerType::class,[
-                'required' => true,
-                'label' => 'Nouveau prix :',
-                'attr' => array('class'=> 'form-control mb-2')
-            ])
-            ->add('freeDelivery',CheckboxType::class,[
+            ->add('reductionType', TextType::class,[
                 'required' => false,
-                'label' => 'Livraison gratuite :  ',
-                'attr' => array('class'=> 'form-check-input mb-2')
+                'label' => 'Type de réduction :',
+                'attr' => array('class'=> 'form-control mb-2')
+            ])
+            ->add('code',TextType::class,[
+                'required' => true,
+                'label' => 'Code :  ',
+                'attr' => array('class'=> 'form-control mb-2')
             ])
             ->add('groupsList',EntityType::class,[
                 'class' => Group::class,
@@ -61,7 +56,7 @@ class GoodDealFormType extends AbstractType
                 'attr' => array('class'=> 'form-select mb-2')
             ])
             ->add('save', SubmitType::class, [
-                'label' => 'Créer le deal',
+                'label' => 'Créer le form',
                 'attr' => array('class'=> 'btn btn-primary')
             ]);
     }
@@ -69,7 +64,7 @@ class GoodDealFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => GoodDeal::class,
+            'data_class' => PromotionnalCode::class,
         ]);
     }
 }
