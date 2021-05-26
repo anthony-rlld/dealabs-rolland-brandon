@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\DiscriminatorMap;
 use Doctrine\ORM\Mapping\InheritanceType;
 
 /**
- * @ORM\Entity(repositoryClass=DealRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\DealRepository")
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
  * @DiscriminatorMap({"goodDeal" = "GoodDeal", "promotionnalCode" = "PromotionnalCode"})

@@ -11,13 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 class PromotionnalCode extends Deal
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $reductionType;
@@ -26,11 +19,6 @@ class PromotionnalCode extends Deal
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $code;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getReductionType(): ?string
     {
