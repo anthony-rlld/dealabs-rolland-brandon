@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container">
+    <div class="card mb-3 col-lg-12">
+        <div class="row g-0">
+            <div class="col-md-2">
+                <img src="./assets/images/crossimg.png" alt="">
+            </div>
+            <div class="col-md-10">
+                <div class="card-body">
+                    <h5 class="card-title">{{ deal.title }}</h5>
+                    {% if deal.actualPrice is defined %}
+                    <p class="card-text"><span>{{ deal.newPrice }}</span>/<strike>{{ deal.actualPrice }}</strike></p>
+                    {% endif %}
+                    <p class="card-text">{{ deal.description }}</p>
+                    <p class="card-text"><small class="text-muted">{{ deal.creationDate}}</small></p>
+                    <a href="{{ deal.link }}" class="btn btn-primary">Voir le deal</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <h3>Listes des commentaires du deal</h3>
+</div>
+
+{% endblock %}

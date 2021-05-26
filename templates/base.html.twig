@@ -16,7 +16,7 @@
     <body>
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="{{ path('home') }}">Dealabs</a>
+            <a class="navbar-brand m-lg-2" href="{{ path('home') }}">Dealabs</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -31,10 +31,23 @@
                     </li>
                 </ul>
             </div>
-            <button type="button" class="btn btn-outline-secondary">
+            <div class="dropdown">
+                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Poster
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li>
+                        <a class="dropdown-item" href="{{ path('addgooddeal') }}">Bon plan</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{ path('app_promocodeform') }}">Code promo</a>
+                    </li>
+                </ul>
+            </div>
+            <button type="button" class="btn btn-outline-secondary m-lg-2">
                 <a href="{{ path('app_login') }}">Connexion</a>
             </button>
-            <button type="button" class="btn btn-outline-secondary">
+            <button type="button" class="btn btn-outline-secondary m-lg-1">
                 <a href="{{ path('app_register') }}">Pas de compte ?</a>
             </button>
         </nav>
