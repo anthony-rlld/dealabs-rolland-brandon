@@ -1,6 +1,6 @@
 <?php
 
-namespace App\FormType;
+namespace App\Form;
 
 use App\Entity\GoodDeal;
 use App\Entity\Group;
@@ -17,10 +17,6 @@ class GoodDealFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        //   $repo = $this->getDoctrine()->getRepository(Category::class);
-        //   $categs = $repo->findAll();
-
-
         $builder
             ->add('title', TextType::class,[
                 'required' => true,
@@ -35,6 +31,11 @@ class GoodDealFormType extends AbstractType
             ->add('link', TextType::class,[
                 'required' => true,
                 'label' => 'Lien du form :',
+                'attr' => array('class'=> 'form-control mb-2')
+            ])
+            ->add('website', TextType::class, [
+                'required' => true,
+                'label' => 'Site web :',
                 'attr' => array('class'=> 'form-control mb-2')
             ])
             ->add('actualPrice', IntegerType::class,[
@@ -52,8 +53,9 @@ class GoodDealFormType extends AbstractType
                 'label' => 'Livraison gratuite :  ',
                 'attr' => array('class'=> 'form-check-input mb-2')
             ])
-            ->add('groupsList',EntityType::class,[
+            ->add('groupList',EntityType::class,[
                 'class' => Group::class,
+                'choice_label' => 'name',
                 'label' => 'Groupes :',
                 'expanded' => false,
                 'multiple' => true,

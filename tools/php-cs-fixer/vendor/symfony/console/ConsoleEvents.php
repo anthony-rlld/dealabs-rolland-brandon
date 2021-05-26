@@ -51,7 +51,7 @@ final class ConsoleEvents
     /**
      * The ERROR event occurs when an uncaught exception or error appears.
      *
-     * This event allows you to deal with the exception/error or
+     * This event allows you to form with the exception/error or
      * to modify the thrown exception.
      *
      * @Event("Symfony\Component\Console\Event\ConsoleErrorEvent")

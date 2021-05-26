@@ -41,13 +41,13 @@ class Comment
      * @ORM\ManyToOne(targetEntity=Deal::class, inversedBy="commentsList")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $dealId;
+    private $deal;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commentsList")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $userId;
+    private $user;
 
     public function getId(): ?int
     {
@@ -102,26 +102,26 @@ class Comment
         return $this;
     }
 
-    public function getDealId(): ?Deal
+    public function getDeal(): ?Deal
     {
-        return $this->dealId;
+        return $this->deal;
     }
 
-    public function setDealId(?Deal $dealId): self
+    public function setDeal(?Deal $deal): self
     {
-        $this->dealId = $dealId;
+        $this->deal = $deal;
 
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    public function setUserId(?User $userId): self
+    public function setUser(?User $user): self
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }

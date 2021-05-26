@@ -45,12 +45,12 @@ class User implements UserInterface
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="userId", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user", orphanRemoval=true)
      */
     private $commentsList;
 
     /**
-     * @ORM\OneToMany(targetEntity=Vote::class, mappedBy="userId", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Vote::class, mappedBy="user", orphanRemoval=true)
      */
     private $votesList;
 
@@ -165,7 +165,7 @@ class User implements UserInterface
     {
         if (!$this->commentsList->contains($commentsList)) {
             $this->commentsList[] = $commentsList;
-            $commentsList->setUserId($this);
+            $commentsList->setUser($this);
         }
 
         return $this;
@@ -175,8 +175,8 @@ class User implements UserInterface
     {
         if ($this->commentsList->removeElement($commentsList)) {
             // set the owning side to null (unless already changed)
-            if ($commentsList->getUserId() === $this) {
-                $commentsList->setUserId(null);
+            if ($commentsList->getUser() === $this) {
+                $commentsList->setUser(null);
             }
         }
 
@@ -195,7 +195,7 @@ class User implements UserInterface
     {
         if (!$this->votesList->contains($votesList)) {
             $this->votesList[] = $votesList;
-            $votesList->setUserId($this);
+            $votesList->setUser($this);
         }
 
         return $this;
@@ -205,8 +205,8 @@ class User implements UserInterface
     {
         if ($this->votesList->removeElement($votesList)) {
             // set the owning side to null (unless already changed)
-            if ($votesList->getUserId() === $this) {
-                $votesList->setUserId(null);
+            if ($votesList->getUser() === $this) {
+                $votesList->setUser(null);
             }
         }
 

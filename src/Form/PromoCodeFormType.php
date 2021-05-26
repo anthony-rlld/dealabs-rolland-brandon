@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\FormType;
+namespace App\Form;
 
 
 use App\Entity\Group;

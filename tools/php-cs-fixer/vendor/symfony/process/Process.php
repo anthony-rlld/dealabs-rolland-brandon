@@ -311,7 +311,7 @@ class Process implements \IteratorAggregate
             $commandline = implode(' ', array_map([$this, 'escapeArgument'], $commandline));
 
             if ('\\' !== \DIRECTORY_SEPARATOR) {
-                // exec is mandatory to deal with sending a signal to the process
+                // exec is mandatory to form with sending a signal to the process
                 $commandline = 'exec '.$commandline;
             }
         } else {

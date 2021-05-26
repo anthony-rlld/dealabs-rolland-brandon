@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\PromotionnalCode;
-use App\FormType\PromoCodeFormType;
+use App\Form\PromoCodeFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
