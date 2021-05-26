@@ -1,20 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
-
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1 class="bg-info">Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/mnt/d/Documents/Cours/Année 2020-21/Php/rolland-brandon/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/mnt/d/Documents/Cours/Année 2020-21/Php/rolland-brandon/templates/home/home.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
-</div>
+<div class="col-ls-12" xmlns="http://www.w3.org/1999/html">
+        <div class="container card-deck flex-row mt-5">
+            {% for deal in deals %}
+            <div class="card mb-3 col-lg-12 mt-2">
+                <div class="row g-0">
+                    <div class="col-md-2">
+                        <img src="{{ asset('/assets/images/crossimg.png') }}" alt="">
+                    </div>
+                    <div class="col-md-10">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ deal.title }}</h5>
+                            {% if deal.actualPrice is defined %}
+                                <p class="card-text"><span class="text-danger fw-bold">{{ deal.newPrice }}</span> / <strike class="text-secondary ">{{ deal.actualPrice }}</strike></p>
+                            {% endif %}
+                            {% if deal.reductionType is defined %}
+                                <p class="card-text"><span class="text-danger fw-bold">{{ deal.reductionType }}</span></p>
+                            {% endif %}
+                            <p class="card-text">{{ deal.description }}</p>
+                            <p class="card-text"><small class="text-muted">ajouté le {{ deal.creationDate|date("d/m/Y")}}</small></p>
+                            <a href="{{ path('detaildeal',{'id': deal.id}) }}" class="btn btn-primary">Voir le deal</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

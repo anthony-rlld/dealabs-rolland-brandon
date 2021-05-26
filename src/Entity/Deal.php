@@ -2,15 +2,20 @@
 
 namespace App\Entity;
 
-use App\Repository\DealRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Doctrine\ORM\Mapping\DiscriminatorMap;
+use Doctrine\ORM\Mapping\InheritanceType;
 
 /**
- * @ORM\Entity(repositoryClass=DealRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\DealRepository")
+ * @InheritanceType("JOINED")
+ * @DiscriminatorColumn(name="discr", type="string")
+ * @DiscriminatorMap({"goodDeal" = "GoodDeal", "promotionnalCode" = "PromotionnalCode"})
  */
-class Deal
+abstract class Deal
 {
     /**
      * @ORM\Id
@@ -45,20 +50,31 @@ class Deal
     private $degree;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-
-    private $groupsList;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="dealId", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="deal", orphanRemoval=true)
      */
     private $commentsList;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Vote::class, mappedBy="deal", orphanRemoval=true)
+     */
+    private $votesList;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Group::class, inversedBy="dealList")
+     */
+    private $groupList;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $website;
+
+
     public function __construct()
     {
-        $this->groupsList = new ArrayCollection();
         $this->commentsList = new ArrayCollection();
+        $this->votesList = new ArrayCollection();
+        $this->groupList = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -128,30 +144,6 @@ class Deal
     }
 
     /**
-     * @return Collection|Group[]
-     */
-    public function getGroupsList(): Collection
-    {
-        return $this->groupsList;
-    }
-
-    public function addGroupsList(Group $groupsList): self
-    {
-        if (!$this->groupsList->contains($groupsList)) {
-            $this->groupsList[] = $groupsList;
-        }
-
-        return $this;
-    }
-
-    public function removeGroupsList(Group $groupsList): self
-    {
-        $this->groupsList->removeElement($groupsList);
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Comment[]
      */
     public function getCommentsList(): Collection
@@ -163,7 +155,7 @@ class Deal
     {
         if (!$this->commentsList->contains($commentsList)) {
             $this->commentsList[] = $commentsList;
-            $commentsList->setDealId($this);
+            $commentsList->setDeal($this);
         }
 
         return $this;
@@ -173,10 +165,76 @@ class Deal
     {
         if ($this->commentsList->removeElement($commentsList)) {
             // set the owning side to null (unless already changed)
-            if ($commentsList->getDealId() === $this) {
-                $commentsList->setDealId(null);
+            if ($commentsList->getDeal() === $this) {
+                $commentsList->setDeal(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Vote[]
+     */
+    public function getVotesList(): Collection
+    {
+        return $this->votesList;
+    }
+
+    public function addVotesList(Vote $votesList): self
+    {
+        if (!$this->votesList->contains($votesList)) {
+            $this->votesList[] = $votesList;
+            $votesList->setDeal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVotesList(Vote $votesList): self
+    {
+        if ($this->votesList->removeElement($votesList)) {
+            // set the owning side to null (unless already changed)
+            if ($votesList->getDeal() === $this) {
+                $votesList->setDeal(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Group[]
+     */
+    public function getGroupList(): Collection
+    {
+        return $this->groupList;
+    }
+
+    public function addGroupList(Group $groupList): self
+    {
+        if (!$this->groupList->contains($groupList)) {
+            $this->groupList[] = $groupList;
+        }
+
+        return $this;
+    }
+
+    public function removeGroupList(Group $groupList): self
+    {
+        $this->groupList->removeElement($groupList);
+
+        return $this;
+    }
+
+    public function getWebsite(): ?string
+    {
+        return $this->website;
+    }
+
+    public function setWebsite(string $website): self
+    {
+        $this->website = $website;
 
         return $this;
     }

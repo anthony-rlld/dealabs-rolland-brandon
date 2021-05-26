@@ -8,15 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=PromotionnalCodeRepository::class)
  */
-class PromotionnalCode
+class PromotionnalCode extends Deal
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -26,11 +19,6 @@ class PromotionnalCode
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $code;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getReductionType(): ?string
     {

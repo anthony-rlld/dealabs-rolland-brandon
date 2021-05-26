@@ -20,7 +20,7 @@ class Comment
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $username;
+    private $title;
 
     /**
      * @ORM\Column(type="date")
@@ -41,21 +41,27 @@ class Comment
      * @ORM\ManyToOne(targetEntity=Deal::class, inversedBy="commentsList")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $dealId;
+    private $deal;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commentsList")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUsername(): ?string
+    public function getTitle(): ?string
     {
-        return $this->username;
+        return $this->title;
     }
 
-    public function setUsername(string $username): self
+    public function setTitle(string $title): self
     {
-        $this->username = $username;
+        $this->title = $title;
 
         return $this;
     }
@@ -96,14 +102,26 @@ class Comment
         return $this;
     }
 
-    public function getDealId(): ?Deal
+    public function getDeal(): ?Deal
     {
-        return $this->dealId;
+        return $this->deal;
     }
 
-    public function setDealId(?Deal $dealId): self
+    public function setDeal(?Deal $deal): self
     {
-        $this->dealId = $dealId;
+        $this->deal = $deal;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

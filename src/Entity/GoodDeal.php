@@ -8,14 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=GoodDealRepository::class)
  */
-class GoodDeal
+class GoodDeal extends Deal
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
 
     /**
      * @ORM\Column(type="float", nullable=true)
@@ -31,11 +25,6 @@ class GoodDeal
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $freeDelivery;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getActualPrice(): ?float
     {

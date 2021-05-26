@@ -14,6 +14,44 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand m-lg-2" href="{{ path('home') }}">Dealabs</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('app_gooddeals') }}">Bons plans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_promocodes') }}">Codes promo</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Poster
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li>
+                        <a class="dropdown-item" href="{{ path('app_gooddealform') }}">Bon plan</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{ path('app_promocodeform') }}">Code promo</a>
+                    </li>
+                </ul>
+            </div>
+            <button type="button" class="btn btn-outline-secondary m-lg-2">
+                <a href="{{ path('app_login') }}">Connexion</a>
+            </button>
+            <button type="button" class="btn btn-outline-secondary m-lg-1">
+                <a href="{{ path('app_register') }}">Pas de compte ?</a>
+            </button>
+        </nav>
+    {% block body %}
+    {% endblock %}
     </body>
 </html>
