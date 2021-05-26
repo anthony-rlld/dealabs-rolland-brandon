@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\GoodDeal;
-use App\Form\GoodDealFormType;
+use App\FormType\GoodDealFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +16,7 @@ class GoodDealController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('deal/goodDeal.html.twig', [
+        return $this->render('form/goodDeal.html.twig', [
             'controller_name' => 'GoodDealController',
         ]);
     }
@@ -47,7 +47,7 @@ class GoodDealController extends AbstractController
             return $this->redirectToRoute('home');
 
         }
-        return $this->render('/deal/goodDeal.html.twig', [
+        return $this->render('/form/goodDeal.html.twig', [
             'form' => $form->createView(),
         ]);
 
