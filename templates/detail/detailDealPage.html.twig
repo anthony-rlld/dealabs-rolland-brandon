@@ -15,7 +15,7 @@
                     <p class="card-text"><span>{{ deal.newPrice }}</span>/<strike>{{ deal.actualPrice }}</strike></p>
                     {% endif %}
                     <p class="card-text">{{ deal.description }}</p>
-                    <p class="card-text"><small class="text-muted">{{ deal.creationDate}}</small></p>
+                    <p class="card-text"><small class="text-muted">{{ deal.creationDate|date('Y-m-d') }}</small></p>
                     <a href="{{ deal.link }}" class="btn btn-primary">Voir le deal</a>
                 </div>
             </div>

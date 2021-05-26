@@ -13,10 +13,10 @@ class DetailDealController extends AbstractController
     /**
      * @Route("/deals/detail/{id}", name="detaildeal")
      * @param Request $request
-     * @param string $id
+     * @param int $id
      * @return Response
      */
-    public function index(Request $request, string $id): Response
+    public function index(Request $request, int $id): Response
     {
         $deal =  $this->getDoctrine()->getRepository(Deal::class)->find($id);
 
