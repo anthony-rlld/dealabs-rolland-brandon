@@ -26,13 +26,13 @@ class Group
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Deal::class, mappedBy="groupsList")
+     * @ORM\ManyToMany(targetEntity=Deal::class, mappedBy="groupList")
      */
-    private $dealsList;
+    private $dealList;
 
     public function __construct()
     {
-        $this->dealsList = new ArrayCollection();
+        $this->dealList = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -55,25 +55,25 @@ class Group
     /**
      * @return Collection|Deal[]
      */
-    public function getDealsList(): Collection
+    public function getDealList(): Collection
     {
-        return $this->dealsList;
+        return $this->dealList;
     }
 
-    public function addDealsList(Deal $dealsList): self
+    public function addDealList(Deal $dealList): self
     {
-        if (!$this->dealsList->contains($dealsList)) {
-            $this->dealsList[] = $dealsList;
-            $dealsList->addGroupsList($this);
+        if (!$this->dealList->contains($dealList)) {
+            $this->dealList[] = $dealList;
+            $dealList->addGroupList($this);
         }
 
         return $this;
     }
 
-    public function removeDealsList(Deal $dealsList): self
+    public function removeDealList(Deal $dealList): self
     {
-        if ($this->dealsList->removeElement($dealsList)) {
-            $dealsList->removeGroupsList($this);
+        if ($this->dealList->removeElement($dealList)) {
+            $dealList->removeGroupList($this);
         }
 
         return $this;

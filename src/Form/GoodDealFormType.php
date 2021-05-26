@@ -34,7 +34,12 @@ class GoodDealFormType extends AbstractType
             ])
             ->add('link', TextType::class,[
                 'required' => true,
-                'label' => 'Lien du deal :',
+                'label' => 'Lien du form :',
+                'attr' => array('class'=> 'form-control mb-2')
+            ])
+            ->add('website', TextType::class, [
+                'required' => true,
+                'label' => 'Site web :',
                 'attr' => array('class'=> 'form-control mb-2')
             ])
             ->add('actualPrice', IntegerType::class,[
@@ -52,8 +57,9 @@ class GoodDealFormType extends AbstractType
                 'label' => 'Livraison gratuite :  ',
                 'attr' => array('class'=> 'form-check-input mb-2')
             ])
-            ->add('groupsList',EntityType::class,[
+            ->add('groupList',EntityType::class,[
                 'class' => Group::class,
+                'choice_label' => 'name',
                 'label' => 'Groupes :',
                 'expanded' => false,
                 'multiple' => true,
@@ -61,7 +67,7 @@ class GoodDealFormType extends AbstractType
                 'attr' => array('class'=> 'form-select mb-2')
             ])
             ->add('save', SubmitType::class, [
-                'label' => 'Créer le deal',
+                'label' => 'Créer le form',
                 'attr' => array('class'=> 'btn btn-primary')
             ]);
     }

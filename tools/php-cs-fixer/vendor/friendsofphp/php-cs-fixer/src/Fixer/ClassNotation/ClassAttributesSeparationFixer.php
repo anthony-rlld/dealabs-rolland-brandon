@@ -293,7 +293,7 @@ class Sample
             }
         }
 
-        // deal with comments above a element
+        // form with comments above a element
         if ($tokens[$nonWhiteAbove]->isGivenKind(T_COMMENT)) {
             if (1 === $firstElementAttributeIndex - $nonWhiteAbove) {
                 // no white space found between comment and element start
@@ -329,7 +329,7 @@ class Sample
             return;
         }
 
-        // deal with element with a PHPDoc above it
+        // form with element with a PHPDoc above it
         if ($tokens[$nonWhiteAbove]->isGivenKind(T_DOC_COMMENT)) {
             // there should be one linebreak between the element and the PHPDoc above it
             $this->correctLineBreaks($tokens, $nonWhiteAbove, $firstElementAttributeIndex, 1);
@@ -341,7 +341,7 @@ class Sample
             return;
         }
 
-        // deal with element with an attribute above it
+        // form with element with an attribute above it
         if ($tokens[$nonWhiteAbove]->isGivenKind(CT::T_ATTRIBUTE_CLOSE)) {
             // there should be one linebreak between the element and the attribute above it
             $this->correctLineBreaks($tokens, $nonWhiteAbove, $firstElementAttributeIndex, 1);
