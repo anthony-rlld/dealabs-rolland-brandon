@@ -37,18 +37,24 @@ class PromoCodeFormType extends AbstractType
                 'label' => 'Lien du code promo :',
                 'attr' => array('class'=> 'form-control mb-2')
             ])
+            ->add('website', TextType::class, [
+                'required' => true,
+                'label' => 'Nom du site web :',
+                'attr' => array('class'=> 'form-control mb-2')
+            ])
             ->add('reductionType', TextType::class,[
                 'required' => false,
-                'label' => 'Type de réduction :',
+                'label' => 'Valeur (€ ou %) :',
                 'attr' => array('class'=> 'form-control mb-2')
             ])
             ->add('code',TextType::class,[
                 'required' => true,
-                'label' => 'Code :  ',
+                'label' => 'Code Promo :  ',
                 'attr' => array('class'=> 'form-control mb-2')
             ])
-            ->add('groupsList',EntityType::class,[
+            ->add('groupList',EntityType::class,[
                 'class' => Group::class,
+                'choice_label' => 'name',
                 'label' => 'Groupes :',
                 'expanded' => false,
                 'multiple' => true,
@@ -56,7 +62,7 @@ class PromoCodeFormType extends AbstractType
                 'attr' => array('class'=> 'form-select mb-2')
             ])
             ->add('save', SubmitType::class, [
-                'label' => 'Créer le form',
+                'label' => 'Valider',
                 'attr' => array('class'=> 'btn btn-primary')
             ]);
     }

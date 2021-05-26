@@ -3,20 +3,23 @@
 {% block body %}
 
 <div class="container">
-    <div class="card mb-3 col-lg-12">
+    <div class="card mb-3 col-lg-12 mt-2">
         <div class="row g-0">
             <div class="col-md-2">
-                <img src="./assets/images/crossimg.png" alt="">
+                <img src="{{ asset('/assets/images/crossimg.png') }}" alt="">
             </div>
             <div class="col-md-10">
                 <div class="card-body">
                     <h5 class="card-title">{{ deal.title }}</h5>
                     {% if deal.actualPrice is defined %}
-                    <p class="card-text"><span>{{ deal.newPrice }}</span>/<strike>{{ deal.actualPrice }}</strike></p>
+                        <p class="card-text"><span class="text-danger fw-bold">{{ deal.newPrice }}</span> / <strike class="text-secondary ">{{ deal.actualPrice }}</strike></p>
+                    {% endif %}
+                    {% if deal.reductionType is defined %}
+                        <p class="card-text"><span class="text-danger fw-bold">{{ deal.reductionType }}</span></p>
                     {% endif %}
                     <p class="card-text">{{ deal.description }}</p>
-                    <p class="card-text"><small class="text-muted">{{ deal.creationDate|date('Y-m-d') }}</small></p>
-                    <a href="{{ deal.link }}" class="btn btn-primary">Voir le deal</a>
+                    <p class="card-text"><small class="text-muted">ajouté le {{ deal.creationDate|date("d/m/Y")}}</small></p>
+                    <a href="{{ path('detaildeal',{'id': deal.id}) }}" class="btn btn-primary">Voir le deal</a>
                 </div>
             </div>
         </div>

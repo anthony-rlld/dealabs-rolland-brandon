@@ -28,7 +28,7 @@ class PromoCodeFormController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $promoCode = $form->getData();
-
+            $promoCode->setCreationDate(new \DateTime());
             //  $promoCodeRepo = $this->getDoctrine()->getRepository(GoodDeal::class);
 
             $entityManager = $this->getDoctrine()->getManager();

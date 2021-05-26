@@ -2,37 +2,31 @@
 
 {% block body %}
 
-    <div class="col-ls-12">
+<div class="col-ls-12" xmlns="http://www.w3.org/1999/html">
         <div class="container card-deck flex-row mt-5">
-            <div class="card mb-3 col-lg-12">
+            {% for deal in deals %}
+            <div class="card mb-3 col-lg-12 mt-2">
                 <div class="row g-0">
                     <div class="col-md-2">
                         <img src="{{ asset('/assets/images/crossimg.png') }}" alt="">
                     </div>
                     <div class="col-md-10">
                         <div class="card-body">
-                            <h5 class="card-title">PS5</h5>
-                            <p class="card-text">Nouveau-prix / actuel prix</p>
-                            <p class="card-text">Voici la description rapide de la play qui va falloir ecrire ici.</p>
-                            <p class="card-text"><small class="text-muted">Date d'ajout du deal (date de creation)</small></p>
-                            <a href="{{ path('detaildeal',{'id':2}) }}" class="btn btn-primary">Voir le deal</a>
+                            <h5 class="card-title">{{ deal.title }}</h5>
+                            {% if deal.actualPrice is defined %}
+                                <p class="card-text"><span class="text-danger fw-bold">{{ deal.newPrice }}</span> / <strike class="text-secondary ">{{ deal.actualPrice }}</strike></p>
+                            {% endif %}
+                            {% if deal.reductionType is defined %}
+                                <p class="card-text"><span class="text-danger fw-bold">{{ deal.reductionType }}</span></p>
+                            {% endif %}
+                            <p class="card-text">{{ deal.description }}</p>
+                            <p class="card-text"><small class="text-muted">ajouté le {{ deal.creationDate|date("d/m/Y")}}</small></p>
+                            <a href="{{ path('detaildeal',{'id': deal.id}) }}" class="btn btn-primary">Voir le deal</a>
                         </div>
                     </div>
                 </div>
             </div>
-            {#                {% for advert in adverts %}#}
-            {#                    <div class="card bg-secondary text-white flex-wrap">#}
-            {#                        <div class="card-body">#}
-            {#                            <h5 class="card-title card-header">{{ advert.title }}</h5>#}
-            {#                            <p class="card-text">{{ advert.content}}</p>#}
-            {#                            <p class="card-text">{{ advert.postalCode }}</p>#}
-            {#                            <p class="card-text">{{advert.creationDate|date("m/d/Y")}}</p></br>#}
-            {#                            <p class="card-text">{{advert.category.name}}</p></br>#}
-            {#                            <h6 class="card-footer text-right mb-2">{{ advert.price }}$</h6>#}
-            {#                        </div>#}
-            {#                    </div>#}
-            {#                {% endfor %}#}
-
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
