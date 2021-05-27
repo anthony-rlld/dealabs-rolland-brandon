@@ -37,11 +37,6 @@ class PromoCodeFormType extends AbstractType
                 'label' => 'Lien du code promo :',
                 'attr' => array('class'=> 'form-control mb-2')
             ])
-            ->add('website', TextType::class, [
-                'required' => true,
-                'label' => 'Nom du site web :',
-                'attr' => array('class'=> 'form-control mb-2')
-            ])
             ->add('reductionType', TextType::class,[
                 'required' => false,
                 'label' => 'Valeur (€ ou %) :',

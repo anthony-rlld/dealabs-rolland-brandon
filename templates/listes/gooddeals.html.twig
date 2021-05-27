@@ -16,7 +16,7 @@
                         <p class="card-text">{{ gd.actualPrice }} / {{ gd.newPrice }}</p>
                         <p class="card-text">{{ gd.description }}</p>
                         <p class="card-text"><small class="text-muted">{{ gd.creationDate|date('Y-m-d') }}</small></p>
-                        <a href="{{ path('detaildeal', {'id': gd.id }) }}" class="btn btn-primary">Voir le deal</a>
+                        <a href="{{ path('app_dealdetail', {'id': gd.id }) }}" class="btn btn-primary">Voir le deal</a>
                     </div>
                 </div>
             </div>

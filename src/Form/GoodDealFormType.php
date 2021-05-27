@@ -33,11 +33,6 @@ class GoodDealFormType extends AbstractType
                 'label' => 'Lien du deal :',
                 'attr' => array('class'=> 'form-control mb-2')
             ])
-            ->add('website', TextType::class, [
-                'required' => true,
-                'label' => 'Nom du site web :',
-                'attr' => array('class'=> 'form-control mb-2')
-            ])
             ->add('actualPrice', IntegerType::class,[
                 'required' => true,
                 'label' => 'Prix actuel :',

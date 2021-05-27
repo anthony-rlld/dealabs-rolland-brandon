@@ -8,10 +8,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DetailDealController extends AbstractController
+class DealController extends AbstractController
 {
     /**
-     * @Route("/deals/detail/{id}", name="detaildeal")
+     * @Route("/deals/{id}", name="app_dealdetail")
      * @param Request $request
      * @param int $id
      * @return Response
@@ -21,7 +21,7 @@ class DetailDealController extends AbstractController
         $deal =  $this->getDoctrine()->getRepository(Deal::class)->find($id);
 
         return $this->render('detail/detailDealPage.html.twig', [
-            'controller_name' => 'DetailDealController',
+            'controller_name' => 'DealController',
             'deal' => $deal
         ]);
     }

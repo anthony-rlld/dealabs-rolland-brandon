@@ -16,7 +16,7 @@
                             <p class="card-text"><span class="text-danger fw-bold">{{ pc.reductionType }}</span></p>
                             <p class="card-text">{{ pc.description }}</p>
                             <p class="card-text"><small class="text-muted">ajouté le {{ pc.creationDate|date("d/m/Y")}}</small></p>
-                            <a href="{{ path('detaildeal',{'id': pc.id}) }}" class="btn btn-primary">Voir le deal</a>
+                            <a href="{{ path('app_dealdetail',{'id': pc.id}) }}" class="btn btn-primary">Voir le deal</a>
                         </div>
                     </div>
                 </div>
