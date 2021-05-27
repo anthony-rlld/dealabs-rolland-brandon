@@ -65,11 +65,6 @@ abstract class Deal
     private $groupList;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $website;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="deals")
      * @ORM\JoinColumn(nullable=true)
      */
