@@ -65,7 +65,7 @@ abstract class Deal
     private $groupList;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="deals")
+     * @ORM\Column(type="string", length=255)
      * @ORM\JoinColumn(nullable=true)
      */
     private $user;
@@ -224,18 +224,6 @@ abstract class Deal
     public function removeGroupList(Group $groupList): self
     {
         $this->groupList->removeElement($groupList);
-
-        return $this;
-    }
-
-    public function getWebsite(): ?string
-    {
-        return $this->website;
-    }
-
-    public function setWebsite(string $website): self
-    {
-        $this->website = $website;
 
         return $this;
     }
