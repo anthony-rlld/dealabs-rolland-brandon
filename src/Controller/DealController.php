@@ -25,4 +25,23 @@ class DealController extends AbstractController
             'deal' => $deal
         ]);
     }
+
+    /**
+     * @Route("/deals/degree/{id}/{degree}", name="app_degree")
+     * @param Request $request
+     * @param int $id
+     * @param int $degree
+     */
+    public function doDegree(Request $request,int $id, int $degree)
+    {
+        $deal =  $this->getDoctrine()->getRepository(Deal::class)->find($id);
+
+        $deal->setDegree($deal->getDegree() + $degree);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($deal);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('home');
+    }
 }

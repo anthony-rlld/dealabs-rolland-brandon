@@ -47,7 +47,7 @@ abstract class Deal
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $degree;
+    private $degree = 0;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="deal", orphanRemoval=true)
