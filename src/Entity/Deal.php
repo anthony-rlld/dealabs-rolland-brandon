@@ -65,7 +65,7 @@ abstract class Deal
     private $groupList;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="deals")
      * @ORM\JoinColumn(nullable=true)
      */
     private $user;
