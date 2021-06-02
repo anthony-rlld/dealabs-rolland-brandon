@@ -12,11 +12,13 @@
                     </div>
                     <div class="col-md-10">
                         <div class="card-body">
-                            <h5 class="card-title">{{ deal.title }}</h5>
-                            <div class="d-flex flex-row-reverse">
-                                <a href="{{ path('app_degree', {'id': deal.id, 'degree': 1}) }}" id="degreePlus" class="p-2 btn btn-danger">+1</a>
-                                <h5 class="p-2 text-danger">{{ deal.degree }}</h5>
-                                <a href="{{ path('app_degree', {'id': deal.id, 'degree': -1}) }}" id="degreeMoins" class="p-2 btn btn-info">-1</a>
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title">{{ deal.title }}</h5>
+                                <div class="d-flex">
+                                    <a href="{{ path('app_degree', {'id': deal.id, 'degree': 1}) }}" id="degreePlus" class="p-2 btn btn-danger">+1</a>
+                                    <h5 class="p-2 text-danger">{{ deal.degree }}</h5>
+                                    <a href="{{ path('app_degree', {'id': deal.id, 'degree': -1}) }}" id="degreeMoins" class="p-2 btn btn-info">-1</a>
+                                </div>
                             </div>
                             {% if deal.actualPrice is defined %}
                                 <p class="card-text"><span class="text-danger fw-bold">{{ deal.newPrice }}</span> / <strike class="text-secondary ">{{ deal.actualPrice }}</strike></p>
