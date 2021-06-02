@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Deal;
+use App\Form\CommentFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,12 +22,18 @@ class DealController extends AbstractController
     public function index(Request $request, int $id): Response
     {
         $deal =  $this->getDoctrine()->getRepository(Deal::class)->find($id);
+        $comments = $deal->getCommentsList();
+
+        $form = $this->createCommentForm($request, $deal);
 
         return $this->render('detail/detailDealPage.html.twig', [
             'controller_name' => 'DealController',
-            'deal' => $deal
+            'deal' => $deal,
+            'comments' => $comments,
+            'form' => $form->createView()
         ]);
     }
+
 
     /**
      * @Route("/deals/degree/{id}/{degree}", name="app_degree")
@@ -44,4 +53,25 @@ class DealController extends AbstractController
 
         return $this->redirectToRoute('home');
     }
+
+    private function createCommentForm(Request $request, Deal $deal): FormInterface
+    {
+        $comment = new Comment();
+        $form = $this->createForm(CommentFormType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment = $form->getData();
+            $comment->setUser($this->getUser());
+            $comment->setDeal($deal);
+            $comment->setCreationDate(new \DateTime());
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+        }
+
+        return $form;
+    }
+
 }
