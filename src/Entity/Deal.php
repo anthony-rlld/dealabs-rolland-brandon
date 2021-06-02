@@ -45,7 +45,7 @@ abstract class Deal
     private $creationDate;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true,)
      */
     private $degree = 0;
 

@@ -26,14 +26,27 @@
                     {% endif %}
                     <p class="card-text">{{ deal.description }}</p>
                     <p class="card-text"><small class="text-muted">ajouté le {{ deal.creationDate|date("d/m/Y")}}</small></p>
-                    <a href="{{ path('detaildeal',{'id': deal.id}) }}" class="btn btn-primary">Voir le deal</a>
+                    <a href="{{ path('app_dealdetail',{'id': deal.id}) }}" class="btn btn-primary">Voir le deal</a>
+                    <div></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div>
-    <h3>Listes des commentaires du deal</h3>
+<div class="bg-white container d-flex flex-column p-5 rounded-2 my-5 align-content-around">
+    <h1 class="h3 mb-3 font-weight-normal">Commentaire</h1>
+    {{ form(form) }}
+</div>
+
+<div class="bg-white container d-flex flex-column p-5 rounded-2 my-5 align-content-around">
+    <h1 class="h3 mb-3 font-weight-normal">Liste des commentaires</h1>
+    {% for c in comments %}
+        <div class="card-body">
+            <h5 class="card-title">{{ c.title }}</h5>
+            <p class="card-text"><small class="text-muted">{{ c.user.name}} | {{ c.creationDate|date("d/m/Y")}}</small></p>
+            <p class="card-body">{{  c.description }}</p>
+        </div>
+    {% endfor %}
 </div>
 
 {% endblock %}
