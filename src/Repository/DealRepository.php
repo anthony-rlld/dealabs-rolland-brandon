@@ -44,6 +44,7 @@ class DealRepository extends ServiceEntityRepository
             ->setMaxResults(10)
             ->getQuery()
             ->getResult();
+    }
 
     public function findBySearch(String $value)
     {
