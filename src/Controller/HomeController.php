@@ -18,11 +18,13 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         $repo = $this->getDoctrine()->getRepository(Deal::class);
-        $deals = $repo->findAll();
+        $plusHot = $repo->findLesPlusHot(100);
+        $aLaUne = $repo->findALaUne();
 
         return $this->render('home/home.html.twig', [
             'controller_name' => 'HomeController',
-            'deals' => $deals
+            'plusHot' => $plusHot,
+            'aLaUne' => $aLaUne
         ]);
     }
 
