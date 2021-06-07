@@ -8,6 +8,7 @@ use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\VarDumper\Cloner\Data;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @method Deal|null find($id, $lockMode = null, $lockVersion = null)
@@ -43,6 +44,17 @@ class DealRepository extends ServiceEntityRepository
             ->setMaxResults(10)
             ->getQuery()
             ->getResult();
+
+    public function findBySearch(String $value)
+    {
+
+        return $queryBuilder = $this->createQueryBuilder('d')
+                                    ->andWhere('d.title LIKE :value')
+                                    ->orWhere('d.description LIKE :valueDesc')
+                                    ->setParameter('value','%'.$value.'%')
+                                    ->setParameter('valueDesc','%'.$value.'%')
+                                    ->getQuery()
+                                    ->getResult();
     }
 
     // /**
