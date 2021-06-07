@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="col-ls-12" xmlns="http://www.w3.org/1999/html">
+        <div class="container card-deck flex-row mt-5">
+            {% for deal in deals %}
+                <div class="card mb-3 col-lg-12 mt-2">
+                    <div class="row g-0">
+                        <div class="col-md-2">
+                            <img src="{{ asset('/assets/images/crossimg.png') }}" alt="">
+                        </div>
+                        <div class="col-md-10">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <h5 class="card-title">{{ deal.title }}</h5>
+                                    <div class="d-flex">
+                                        <a href="{{ path('app_degree', {'id': deal.id, 'degree': 1}) }}" id="degreePlus" class="p-2 btn btn-danger">+1</a>
+                                        <h5 class="p-2 text-danger">{{ deal.degree }}</h5>
+                                        <a href="{{ path('app_degree', {'id': deal.id, 'degree': -1}) }}" id="degreeMoins" class="p-2 btn btn-info">-1</a>
+                                    </div>
+                                </div>
+                                {% if deal.actualPrice is defined %}
+                                    <p class="card-text"><span class="text-danger fw-bold">{{ deal.newPrice }}</span> / <strike class="text-secondary ">{{ deal.actualPrice }}</strike></p>
+                                {% endif %}
+                                {% if deal.amount is defined %}
+                                    <p class="card-text"><span class="text-danger fw-bold">{{ deal.amount }}{{ deal.reductionType }}</span></p>
+                                {% endif %}
+                                <p class="card-text">{{ deal.description }}</p>
+                                <p class="card-text"><small class="text-muted">ajouté le {{ deal.creationDate|date("d/m/Y")}}</small></p>
+                                <a href="{{ path('app_dealdetail',{'id': deal.id}) }}" class="btn btn-primary">Voir le deal</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

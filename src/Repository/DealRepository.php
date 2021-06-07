@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Deal;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @method Deal|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +18,18 @@ class DealRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Deal::class);
+    }
+
+    public function findBySearch(String $value)
+    {
+
+        return $queryBuilder = $this->createQueryBuilder('d')
+                                    ->andWhere('d.title LIKE :value')
+                                    ->orWhere('d.description LIKE :valueDesc')
+                                    ->setParameter('value','%'.$value.'%')
+                                    ->setParameter('valueDesc','%'.$value.'%')
+                                    ->getQuery()
+                                    ->getResult();
     }
 
     // /**
