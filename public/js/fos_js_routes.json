@@ -1,0 +1,1 @@
+{"base_url":"","routes":{"app_degree":{"tokens":[["variable","\/","[^\/]++","degree"],["variable","\/","[^\/]++","id"],["text","\/deals\/degree"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":[],"schemes":[]}},"prefix":"","host":"localhost","port":"","scheme":"http","locale":[]}

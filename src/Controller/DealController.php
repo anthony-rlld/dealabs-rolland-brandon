@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Deal;
+use App\Entity\Vote;
 use App\Form\CommentFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -36,22 +37,28 @@ class DealController extends AbstractController
 
 
     /**
-     * @Route("/deals/degree/{id}/{degree}", name="app_degree")
-     * @param Request $request
+     * @Route("/deals/degree/{id}/{degree}", options={"expose"= true}, name="app_degree")
      * @param int $id
      * @param int $degree
      */
-    public function doDegree(Request $request,int $id, int $degree)
+    public function doDegree(int $id, int $degree)
     {
         $deal =  $this->getDoctrine()->getRepository(Deal::class)->find($id);
 
+        $vote = new Vote();
+
         $deal->setDegree($deal->getDegree() + $degree);
+
+        $vote->setDeal($deal);
+        $vote->setNotation($degree);
+        $vote->setUser($this->getUser());
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($deal);
+        $entityManager->persist($vote);
         $entityManager->flush();
 
-        return $this->redirectToRoute('home');
+       // return $this->redirectToRoute('home');
     }
 
     private function createCommentForm(Request $request, Deal $deal): FormInterface
