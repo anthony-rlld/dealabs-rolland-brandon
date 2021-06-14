@@ -1,0 +1,105 @@
+$primary: #03a5c1 !default;
+
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+
+body {
+    background-color: lightgray;
+}
+
+.deal-title:hover {
+    text-decoration: underline !important;
+}
+
+.deal-old-price {
+    text-decoration: line-through !important;
+}
+
+.text-strong {
+    font-weight: bold;
+}
+
+.text-fit {
+    font-weight: normal;
+}
+
+.text-xs {
+    font-size: small;
+}
+
+.text-s {
+    font-size: medium;
+}
+
+.text-m {
+    font-size: large;
+}
+
+.nav-active {
+    border-bottom: 2px solid #0d6efd;
+    color: #0d6efd !important;
+}
+
+.brand-info-container {
+    width: 90%;
+}
+
+.brand-avatar-container {
+    width: 10%;
+}
+
+.avatar-xl {
+    width: 7.14286em;
+    height: 7.14286em;
+}
+
+.avatar-m {
+    width: 3.85714em;
+    height: 3.85714em;
+}
+
+.avatar-s {
+    width: 2.57143em;
+    height: 2.57143em;
+}
+
+.avatar-xs {
+    width: 1.85714em;
+    height: 1.85714em;
+}
+
+.btn-avatar:hover {
+    border: 1px $primary solid !important;
+}
+
+.badge-container > div {
+    border-bottom: 1px solid lightgray;
+}
+
+.badge-container > div:last-child {
+    border-bottom: none !important;
+}
+
+.h-min-content {
+    height: min-content;
+}
+
+.comment-container > div {
+    border-bottom: 1px solid lightgray;
+}
+
+.comment-container > div:last-child {
+    border-bottom: none !important;
+}
+
+.btn-avatar-without-img:hover {
+    border: 1px solid lightgray !important;
+    color: $primary !important;
+}
+
+.form-comment > form, {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}

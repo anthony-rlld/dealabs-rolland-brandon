@@ -17,20 +17,10 @@ class CommentFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class,[
-                'required' => true,
-                'label' => 'Titre :',
-                'attr' => array('class'=> 'form-control mb-2')
-            ])
             ->add('description', TextareaType::class, [
                 'required' => true,
-                'label' => 'Description :',
-                'attr' => array('class' => 'form-control mb-2')
-            ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Valider',
-                'attr' => array('class'=> 'btn btn-primary')
-            ]);;
+                'attr' => array('class' => 'w-100 h-100')
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

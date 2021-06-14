@@ -3,31 +3,78 @@
 {% block title %}Hello GoodDealController!{% endblock %}
 
 {% block body %}
-<div class="container card-deck flex-row mt-5">
-    {% for gd in goodDeals %}
-        <div class="card mb-3 col-lg-12">
-            <div class="row g-0">
-                <div class="col-md-2">
-                    <img src="{{ asset('crossimg.png') }}" alt="">
+<div class="container card-deck flex-row my-2 px-5">
+    {% for deal in goodDeals %}
+        <article class="rounded bg-white mb-2 mx-5">
+            <div class="d-flex p-3">
+                <div class="w-25 me-3">
+                    <img src="./assets/images/crossimg.png" alt="">
                 </div>
-                <div class="col-md-10">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <h5 class="card-title">{{ gd.title }}</h5>
-                            <div class="d-flex">
-                                <a href="{{ path('app_degree', {'id': gd.id, 'degree': 1}) }}" id="degreePlus" class="p-2 btn btn-danger">+1</a>
-                                <h5 class="p-2 text-danger">{{ gd.degree }}</h5>
-                                <a href="{{ path('app_degree', {'id': gd.id, 'degree': -1}) }}" id="degreeMoins" class="p-2 btn btn-info">-1</a>
-                            </div>
+                <div class="w-75 d-flex flex-column">
+                    <div class="d-flex flex-row justify-content-between">
+                        <div class="border rounded">
+                            <button class="btn rounded-circle text-info px-2 py-0">
+                                <i class="bi bi-dash-lg"></i>
+                            </button>
+                            <span class="px-2 text-danger text-strong text-m">
+                                    {{ deal.degree }}°
+                                </span>
+                            <button class="btn rounded-circle text-danger px-2 py-0">
+                                <i class="bi bi-plus-lg"></i>
+                            </button>
                         </div>
-                        <p class="card-text">{{ gd.actualPrice }} / {{ gd.newPrice }}</p>
-                        <p class="card-text">{{ gd.description }}</p>
-                        <p class="card-text"><small class="text-muted">{{ gd.creationDate|date('Y-m-d') }}</small></p>
-                        <a href="{{ path('app_dealdetail', {'id': gd.id }) }}" class="btn btn-primary">Voir le deal</a>
+                        <div class="my-auto">
+                                <span class="text-muted">
+                                    <i class="bi bi-clock"></i>
+                                    {{ deal.creationDate|date("d/m/Y") }}
+                                </span>
+                        </div>
+                    </div>
+                    <a class="text-strong text-m text-dark text-decoration-none mt-2 deal-title"
+                       href="{{ path('app_dealdetail',{'id': deal.id}) }}">
+                        {{ deal.title }}
+                    </a>
+                    <div class="d-flex flex-row">
+                        {% if deal.actualPrice is defined %}
+                            <span class="text-danger text-strong text-m">{{ deal.newPrice }}€</span>
+                            <span class="text-muted text-m text-break deal-old-price ms-2">{{ deal.actualPrice }}€</span>
+                        {% endif %}
+                        {% if deal.amount is defined %}
+                            <span class="text-danger text-strong text-m">-{{ deal.amount }}{{ deal.reductionType }}</span>
+                        {% endif %}
+                        {% if deal.freeDelivery is defined %}
+                            {% if deal.freeDelivery %}
+                                <span class="text-muted text-xs ms-2">
+                                        <i class="bi bi-truck text-m"></i>
+                                        Gratuit
+                                    </span>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <p class="text-xs mt-2">{{ deal.description }}</p>
+                    <div class="d-flex flex-row justify-content-between">
+                            <span>
+                                <a class="btn btn-avatar p-0 rounded-pill">
+                                    <img class="rounded-circle avatar-xs" src="https://static-pepper.dealabs.com/users/raw/default/1027447_1/re/240x240/qt/45/1027447_1.jpg">
+                                    <span class="text-xs text-strong me-2">{{ deal.user.name }}</span>
+                                </a>
+                            </span>
+                        <div class="d-flex flex-row">
+                            <a class="btn border">
+                                <i class="bi bi-bookmark-fill"></i>
+                            </a>
+                            <a class="btn border ms-2" href="{{ path('app_dealdetail',{'id': deal.id}) }}#comments">
+                                <i class="bi bi-chat-fill me-1"></i>
+                                {{ deal.commentsList.count }}
+                            </a>
+                            <a class="btn btn-primary ms-2 text-white text-strong text-s" href="{{ path('app_dealdetail',{'id': deal.id}) }}">
+                                Voir le deal
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </article>
     {% endfor %}
 </div>
 {% endblock %}
