@@ -15,47 +15,99 @@
     </head>
     <body>
 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand m-lg-2" href="{{ path('home') }}">Dealabs</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ path('app_gooddeals') }}">Bons plans</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_promocodes') }}">Codes promo</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="navbar-collapse">
-                <form class="d-flex" method="get" action="{{ path('app_dealsfilter') }}">
-                    <input id="recherche" name="recherche" class="form-control me-2" type="search" placeholder="Rechercher" aria-label="Rechercher">
-                    <button class="btn btn-outline-success" type="submit">Rechercher</button>
-                </form>
-            </div>
-            <div class="dropdown">
-                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                    Poster
+        <nav class="navbar navbar-expand navbar-dark bg-dark p-0">
+            <div class="container">
+                <a class="navbar-brand text-strong text-m m-2" href="{{ path('home') }}">Dealabs</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li>
-                        <a class="dropdown-item" href="{{ path('app_gooddealform') }}">Bon plan</a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="{{ path('app_promocodeform') }}">Code promo</a>
-                    </li>
-                </ul>
+
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <a class="nav-link text-strong text-s" href="{{ path('app_gooddeals') }}">
+                                Bons plans
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-strong text-s" href="{{ path('app_promocodes') }}">
+                                Codes promo
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="navbar-collapse">
+                    <form class="d-flex" method="get" action="{{ path('app_dealsfilter') }}">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-search"></i></span>
+                            <input id="recherche" name="recherche" class="form-control me-2" type="search" placeholder="Rechercher" aria-label="Rechercher">
+                        </div>
+                    </form>
+                </div>
+
+                {% if app.user %}
+                <div class="dropdown">
+                    <button type="button" class="btn p-0 rounded-circle me-2" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img class="rounded-circle avatar-s"
+                             src="https://static-pepper.dealabs.com/users/raw/default/1027447_1/re/240x240/qt/45/1027447_1.jpg">
+                    </button>
+                    <ul class="dropdown-menu border border-1 border-primary p-0" aria-labelledby="dropdownUser">
+                        <li>
+                            <label class="dropdown-header p-2 bg-primary text-center text-white text-s text-fit">{{ app.user.name }}</label>
+                        </li>
+                        <li>
+                            <a class="dropdown-item py-2 px-4" href="{{ path('app_user') }}">
+                                <i class="bi bi-person-fill me-2"></i>
+                                Aperçu de l'activité
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item py-2 px-4" href="{{ path('app_user_deals') }}">
+                                <i class="bi bi-tag-fill me-2"></i>
+                                Deals postés
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item py-2 px-4" href="{{ path('app_user_deals') }}">
+                                <i class="bi bi-bookmark-fill me-2"></i>
+                                Deals sauvegardés
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider border-primary m-0"></li>
+                        <li class="">
+                            <a class="dropdown-item text-decoration-none text-center text-primary text-strong p-2" href="{{ path('app_logout') }}">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Déconnexion
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                {% endif %}
+
+                <div class="dropdown">
+                    <button class="btn btn-primary text-white text-strong text-s" type="button" id="dropdownAction" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-plus-lg me-2"></i>Poster...
+                    </button>
+                    <ul class="dropdown-menu border border-primary" aria-labelledby="dropdownAction">
+                        <li>
+                            <a class="dropdown-item py-2 px-4" href="{{ path('app_gooddealform') }}">
+                                <i class="bi bi-tag-fill me-2"></i>
+                                Bon plan
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item py-2 px-4" href="{{ path('app_promocodeform') }}">
+                                <i class="bi bi-scissors me-2"></i>
+                                Code promo
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                {% if app.user is empty %}
+                    <a type="button" class="btn btn-outline-secondary m-2" href="{{ path('app_login') }}"><i class="bi bi-person-fill"></i>Connexion</a>
+                    <a type="button" class="btn btn-outline-secondary " href="{{ path('app_register') }}">Pas de compte ?</a>
+                {% endif %}
             </div>
-            <button type="button" class="btn btn-outline-secondary m-lg-2">
-                <a href="{{ path('app_login') }}">Connexion</a>
-            </button>
-            <button type="button" class="btn btn-outline-secondary m-lg-1">
-                <a href="{{ path('app_register') }}">Pas de compte ?</a>
-            </button>
         </nav>
     {% block body %}
     {% endblock %}

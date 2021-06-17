@@ -29,7 +29,7 @@ class PromoCodeFormController extends AbstractController
 
             $promoCode = $form->getData();
             $promoCode->setCreationDate(new \DateTime());
-            //  $promoCodeRepo = $this->getDoctrine()->getRepository(GoodDeal::class);
+            $promoCode->setUser($this->getUser());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($promoCode);

@@ -48,42 +48,52 @@ class DealRepository extends ServiceEntityRepository
 
     public function findBySearch(String $value)
     {
-
-        return $queryBuilder = $this->createQueryBuilder('d')
-                                    ->andWhere('d.title LIKE :value')
-                                    ->orWhere('d.description LIKE :valueDesc')
-                                    ->setParameter('value','%'.$value.'%')
-                                    ->setParameter('valueDesc','%'.$value.'%')
-                                    ->getQuery()
-                                    ->getResult();
+        return  $this->createQueryBuilder('d')
+            ->andWhere('d.title LIKE :value')
+            ->orWhere('d.description LIKE :valueDesc')
+            ->setParameter('value','%'.$value.'%')
+            ->setParameter('valueDesc','%'.$value.'%')
+            ->getQuery()
+            ->getResult();
     }
 
-    // /**
-    //  * @return Deal[] Returns an array of Deal objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findMaxDegreeByUser(int $user_id)
     {
         return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('d.id', 'ASC')
-            ->setMaxResults(10)
+            ->select('MAX(d.degree) as maxDegree')
+            ->join('d.user', 'u')
+            ->andWhere('u.id = :id')
+            ->setParameter('id', $user_id)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Deal
+    public function findMoyenneDegreeByUser(int $user_id)
+    {
+        $date = new DateTime('now');
+        $date->sub(new DateInterval('P1Y'));
+
+        return $this->createQueryBuilder('d')
+            ->select('AVG(d.degree) as moyDegree')
+            ->join('d.user', 'u')
+            ->andWhere('u.id = :id')
+            ->andWhere('d.creationDate >= :date')
+            ->setParameter('date', $date)
+            ->setParameter('id', $user_id)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findHowManyHotByUser(int $user_id, int $hotValue)
     {
         return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
+            ->select('COUNT(d) as nbHot')
+            ->join('d.user', 'u')
+            ->andWhere('u.id = :id')
+            ->andWhere('d.degree >= :degree')
+            ->setParameter('degree', $hotValue)
+            ->setParameter('id', $user_id)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
 }
