@@ -31,6 +31,12 @@
                     </li>
                 </ul>
             </div>
+            <div class="navbar-collapse">
+                <form class="d-flex" method="get" action="{{ path('app_dealsfilter') }}">
+                    <input id="recherche" name="recherche" class="form-control me-2" type="search" placeholder="Rechercher" aria-label="Rechercher">
+                    <button class="btn btn-outline-success" type="submit">Rechercher</button>
+                </form>
+            </div>
             <div class="dropdown">
                 <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     Poster

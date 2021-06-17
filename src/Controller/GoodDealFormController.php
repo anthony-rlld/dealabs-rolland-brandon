@@ -29,6 +29,8 @@ class GoodDealFormController extends AbstractController
 
             $goodDeal = $form->getData();
             $goodDeal->setCreationDate(new \DateTime());
+
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($goodDeal);
             $entityManager->flush();

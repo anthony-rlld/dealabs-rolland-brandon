@@ -12,11 +12,18 @@
                     </div>
                     <div class="col-md-10">
                         <div class="card-body">
-                            <h5 class="card-title">{{ pc.title }}</h5>
-                            <p class="card-text"><span class="text-danger fw-bold">{{ pc.reductionType }}</span></p>
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title">{{ pc.title }}</h5>
+                                <div class="d-flex">
+                                    <a href="{{ path('app_degree', {'id': pc.id, 'degree': 1}) }}" id="degreePlus" class="p-2 btn btn-danger">+1</a>
+                                    <h5 class="p-2 text-danger">{{ pc.degree }}</h5>
+                                    <a href="{{ path('app_degree', {'id': pc.id, 'degree': -1}) }}" id="degreeMoins" class="p-2 btn btn-info">-1</a>
+                                </div>
+                            </div>
+                            <p class="card-text"><span class="text-danger fw-bold">{{ pc.amount }}{{ pc.reductionType }}</span></p>
                             <p class="card-text">{{ pc.description }}</p>
                             <p class="card-text"><small class="text-muted">ajouté le {{ pc.creationDate|date("d/m/Y")}}</small></p>
-                            <a href="{{ path('detaildeal',{'id': pc.id}) }}" class="btn btn-primary">Voir le deal</a>
+                            <a href="{{ path('app_dealdetail',{'id': pc.id}) }}" class="btn btn-primary">Voir le deal</a>
                         </div>
                     </div>
                 </div>

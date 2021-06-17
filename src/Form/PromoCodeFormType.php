@@ -8,6 +8,8 @@ use App\Entity\Group;
 use App\Entity\PromotionnalCode;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -37,16 +39,20 @@ class PromoCodeFormType extends AbstractType
                 'label' => 'Lien du code promo :',
                 'attr' => array('class'=> 'form-control mb-2')
             ])
-            ->add('website', TextType::class, [
-                'required' => true,
-                'label' => 'Nom du site web :',
-                'attr' => array('class'=> 'form-control mb-2')
-            ])
-            ->add('reductionType', TextType::class,[
+            ->add('reductionType', ChoiceType::class,[
                 'required' => false,
-                'label' => 'Valeur (€ ou %) :',
+                'choices' => [
+                    'Pourcentage (%)' => '%',
+                    'Euro (€)' => '€',
+                ],
+                'label' => 'Type de réduction :',
                 'attr' => array('class'=> 'form-control mb-2')
             ])
+            ->add('amount', IntegerType::class, [
+                 'required' => true,
+                 'label' => 'Montant de la réduction :',
+                 'attr' => array('class'=> 'form-control mb-2')
+             ])
             ->add('code',TextType::class,[
                 'required' => true,
                 'label' => 'Code Promo :  ',

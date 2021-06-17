@@ -20,6 +20,11 @@ class PromotionnalCode extends Deal
      */
     private $code;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $amount;
+
     public function getReductionType(): ?string
     {
         return $this->reductionType;
@@ -40,6 +45,18 @@ class PromotionnalCode extends Deal
     public function setCode(?string $code): self
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    public function getAmount(): ?int
+    {
+        return $this->amount;
+    }
+
+    public function setAmount(int $amount): self
+    {
+        $this->amount = $amount;
 
         return $this;
     }

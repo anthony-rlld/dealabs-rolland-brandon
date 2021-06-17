@@ -45,9 +45,9 @@ abstract class Deal
     private $creationDate;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true,)
      */
-    private $degree;
+    private $degree = 0;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="deal", orphanRemoval=true)
@@ -65,9 +65,10 @@ abstract class Deal
     private $groupList;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="deals")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $website;
+    private $user;
 
 
     public function __construct()
@@ -227,14 +228,14 @@ abstract class Deal
         return $this;
     }
 
-    public function getWebsite(): ?string
+    public function getUser(): ?User
     {
-        return $this->website;
+        return $this->user;
     }
 
-    public function setWebsite(string $website): self
+    public function setUser(?User $user): self
     {
-        $this->website = $website;
+        $this->user = $user;
 
         return $this;
     }

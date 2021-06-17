@@ -2,31 +2,54 @@
 
 {% block body %}
 
-<div class="col-ls-12" xmlns="http://www.w3.org/1999/html">
-        <div class="container card-deck flex-row mt-5">
-            {% for deal in deals %}
-            <div class="card mb-3 col-lg-12 mt-2">
-                <div class="row g-0">
-                    <div class="col-md-2">
-                        <img src="{{ asset('/assets/images/crossimg.png') }}" alt="">
+<div class="container mt-5">
+    <section class="d-flex flex-row w-100">
+        <div class="w-75 card-deck flex-row">
+            {% for deal in aLaUne %}
+            <div class="card mb-3">
+                <div class="row">
+                    <div class="">
+                        <img src="./assets/images/crossimg.png" alt="">
                     </div>
                     <div class="col-md-10">
                         <div class="card-body">
-                            <h5 class="card-title">{{ deal.title }}</h5>
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title">{{ deal.title }}</h5>
+                                <div class="d-flex">
+                                    <button data-id="{{ deal.id }}" id="degreePlus" class="p-2 btn btn-danger">+1</button>
+                                    <h5 id="valDegree" class="p-2 text-danger">{{ deal.degree }}°</h5>
+                                    <button data-id="{{ deal.id }}" id="degreeMoins" class="p-2 btn btn-info">+1</button>
+                                </div>
+                            </div>
                             {% if deal.actualPrice is defined %}
                                 <p class="card-text"><span class="text-danger fw-bold">{{ deal.newPrice }}</span> / <strike class="text-secondary ">{{ deal.actualPrice }}</strike></p>
                             {% endif %}
-                            {% if deal.reductionType is defined %}
-                                <p class="card-text"><span class="text-danger fw-bold">{{ deal.reductionType }}</span></p>
+                            {% if deal.amount is defined %}
+                                <p class="card-text"><span class="text-danger fw-bold">{{ deal.amount }}{{ deal.reductionType }}</span></p>
                             {% endif %}
                             <p class="card-text">{{ deal.description }}</p>
                             <p class="card-text"><small class="text-muted">ajouté le {{ deal.creationDate|date("d/m/Y")}}</small></p>
-                            <a href="{{ path('detaildeal',{'id': deal.id}) }}" class="btn btn-primary">Voir le deal</a>
+                            <a href="{{ path('app_dealdetail',{'id': deal.id}) }}" class="btn btn-primary">Voir le deal</a>
                         </div>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
-    </div>
+
+        <div class="w-25 bg-white rounded-2 ms-2 h-50" >
+            <h6 class="h6 m-2 text-muted">Les + hots</h6>
+            {% for deal in plusHot %}
+            <div class="mx-2 my-1">
+                <a href="{{ path('app_dealdetail', {'id': deal.id}) }}" class="text-decoration-none">
+                    <p>
+                        <span class="text-danger"> {{ deal.degree }}°</span>
+                        <span> {{ deal.title }}</span>
+                    </p>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
 {% endblock %}

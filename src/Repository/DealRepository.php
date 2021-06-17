@@ -3,8 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\Deal;
+use DateInterval;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\VarDumper\Cloner\Data;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @method Deal|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +21,41 @@ class DealRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Deal::class);
+    }
+
+    public function findLesPlusHot(int $hotValue)
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.degree >= :degree')
+            ->setParameter('degree', $hotValue)
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findALaUne()
+    {
+        $date = new DateTime('now');
+        $date->sub(new DateInterval('P7D'));
+
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.creationDate >= :date')
+            ->setParameter('date', $date)
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findBySearch(String $value)
+    {
+
+        return $queryBuilder = $this->createQueryBuilder('d')
+                                    ->andWhere('d.title LIKE :value')
+                                    ->orWhere('d.description LIKE :valueDesc')
+                                    ->setParameter('value','%'.$value.'%')
+                                    ->setParameter('valueDesc','%'.$value.'%')
+                                    ->getQuery()
+                                    ->getResult();
     }
 
     // /**

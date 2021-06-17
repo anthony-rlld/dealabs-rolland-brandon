@@ -54,10 +54,16 @@ class User implements UserInterface
      */
     private $votesList;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Deal::class, mappedBy="user")
+     */
+    private $deals;
+
     public function __construct()
     {
         $this->commentsList = new ArrayCollection();
         $this->votesList = new ArrayCollection();
+        $this->deals = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -207,6 +213,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($votesList->getUser() === $this) {
                 $votesList->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Deal[]
+     */
+    public function getDeals(): Collection
+    {
+        return $this->deals;
+    }
+
+    public function addDeal(Deal $deal): self
+    {
+        if (!$this->deals->contains($deal)) {
+            $this->deals[] = $deal;
+            $deal->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeal(Deal $deal): self
+    {
+        if ($this->deals->removeElement($deal)) {
+            // set the owning side to null (unless already changed)
+            if ($deal->getUser() === $this) {
+                $deal->setUser(null);
             }
         }
 
