@@ -17,7 +17,7 @@
                                 <h5 class="card-title">{{ deal.title }}</h5>
                                 <div class="d-flex">
                                     <button data-id="{{ deal.id }}" id="degreePlus" class="p-2 btn btn-danger">+1</button>
-                                    <h5 class="p-2 text-danger">{{ deal.degree }}°</h5>
+                                    <h5 id="valDegree" class="p-2 text-danger">{{ deal.degree }}°</h5>
                                     <a href="{{ path('app_degree', {'id': deal.id, 'degree': -1}) }}" id="degreeMoins" class="p-2 btn btn-info">-1</a>
                                 </div>
                             </div>

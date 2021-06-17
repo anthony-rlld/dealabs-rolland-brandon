@@ -37,28 +37,39 @@ class DealController extends AbstractController
 
 
     /**
-     * @Route("/deals/degree/{id}/{degree}", options={"expose"= true}, name="app_degree")
+     * @Route("/deals/{id}/degree/{degree}", options={"expose"= true}, name="app_degree")
      * @param int $id
      * @param int $degree
      */
     public function doDegree(int $id, int $degree)
     {
-        $deal =  $this->getDoctrine()->getRepository(Deal::class)->find($id);
+        $testVote = $this->getDoctrine()->getRepository(Vote::class)
+                                        ->findBy(array(
+                                            "user"=>$this->getUser(),
+                                            "deal"=>$id
+                                            ));
 
-        $vote = new Vote();
+        if ($testVote != null){
+            return new Response("Le user a deja voté",Response::HTTP_UNAUTHORIZED);
+        }else{
 
-        $deal->setDegree($deal->getDegree() + $degree);
+            $deal =  $this->getDoctrine()->getRepository(Deal::class)->find($id);
+            $vote = new Vote();
 
-        $vote->setDeal($deal);
-        $vote->setNotation($degree);
-        $vote->setUser($this->getUser());
+            $deal->setDegree($deal->getDegree() + $degree);
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($deal);
-        $entityManager->persist($vote);
-        $entityManager->flush();
+            $vote->setDeal($deal);
+            $vote->setNotation($degree);
+            $vote->setUser($this->getUser());
 
-       // return $this->redirectToRoute('home');
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($deal);
+            $entityManager->persist($vote);
+            $entityManager->flush();
+            $response = new Response("OK",Response::HTTP_CREATED);
+            $response->setContent($deal->getDegree());
+            return $response;
+        }
     }
 
     private function createCommentForm(Request $request, Deal $deal): FormInterface
