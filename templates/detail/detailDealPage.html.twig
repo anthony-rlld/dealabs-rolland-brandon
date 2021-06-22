@@ -11,13 +11,16 @@
                 <div class="w-75 d-flex flex-column">
                     <div class="d-flex flex-row justify-content-between">
                         <div class="border rounded">
-                            <button class="btn rounded-circle text-info px-2 py-0">
+                            <button data-id="{{ deal.id }}" id="degreeMoins"
+                                    class="btn btn-vote rounded-circle text-info p-0">
                                 <i class="bi bi-dash-lg"></i>
                             </button>
-                            <span class="px-2 text-danger text-strong text-m">
-                                        {{ deal.degree }}°
-                                    </span>
-                            <button class="btn rounded-circle text-danger px-2 py-0">
+                            <span id="valDegree"
+                                  class="px-2 text-danger text-strong text-m">
+                                    {{ deal.degree }}°
+                                </span>
+                            <button data-id="{{ deal.id }}" id="degreePlus"
+                                    class="btn btn-vote rounded-circle text-danger p-0">
                                 <i class="bi bi-plus-lg"></i>
                             </button>
                         </div>
