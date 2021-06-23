@@ -5,8 +5,8 @@
     <div class="rounded bg-white mb-2">
         <div class="d-flex flex-column">
             <div class="d-flex p-3">
-                <div class="w-25 me-3">
-                    <img src="./assets/images/crossimg.png" alt="">
+                <div class="w-25 my-auto me-3">
+                    <img class="deal-img" src="/img/{{ deal.imageName }}" alt="">
                 </div>
                 <div class="w-75 d-flex flex-column">
                     <div class="d-flex flex-row justify-content-between">
@@ -69,7 +69,7 @@
                     <div class="d-flex flex-row justify-content-between mt-4">
                         <span>
                             <a class="btn btn-avatar p-0 rounded-pill" href="{{ path('app_user', {'username': deal.user.name}) }}">
-                                <img class="rounded-circle avatar-xs" src="https://static-pepper.dealabs.com/users/raw/default/1027447_1/re/240x240/qt/45/1027447_1.jpg">
+                                <img class="rounded-circle avatar-xs" src="/img/{{ deal.user.imageName }}">
                                 <span class="text-xs text-strong me-2">{{ deal.user.name }}</span>
                             </a>
                         </span>
@@ -114,7 +114,7 @@
         {% for c in comments %}
             <div class="d-flex flex-row py-3 px-4">
                 <div class="me-3">
-                    <img class="avatar-m rounded-circle" src="https://static-pepper.dealabs.com/users/raw/default/1027447_1/re/240x240/qt/45/1027447_1.jpg">
+                    <img class="avatar-m rounded-circle" src="/img/{{ c.user.imageName }}">
                 </div>
                 <div class="d-flex flex-column">
                     <div class="d-flex flex-row">
@@ -132,7 +132,7 @@
             <span class="py-2 px-4 text-s text-strong">Laisser un commentaire</span>
             <div class="d-flex flex-column py-3 px-4">
                 <div class="d-flex form-comment">
-                    <img class="avatar-m rounded-circle me-2" src="https://static-pepper.dealabs.com/users/raw/default/1027447_1/re/240x240/qt/45/1027447_1.jpg">
+                    <img class="avatar-m rounded-circle me-2" src="/img/{{ app.user.imageName }}">
                     {{ form_start(form) }}
                         {{ form_row(form.description,{ label: ' ' }) }}
                         <button type="submit" class="btn btn-primary text-white text-s text-strong ms-auto">

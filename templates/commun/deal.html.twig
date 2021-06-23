@@ -1,8 +1,8 @@
 {% block deal %}
 <article class="rounded bg-white mb-2">
     <div class="d-flex p-3">
-        <div class="w-25 me-3">
-            <img src="./assets/images/crossimg.png" alt="">
+        <div class="w-25 my-auto me-3">
+            <img class="deal-img" src="/img/{{ deal.imageName }}" alt="">
         </div>
         <div class="w-75 d-flex flex-column">
             <div class="d-flex flex-row justify-content-between">
@@ -36,10 +36,10 @@
                     {% endif %}
                 </div>
                 <div class="my-auto">
-                                <span class="text-muted">
-                                    <i class="bi bi-clock"></i>
-                                    {{ deal.creationDate|date("d/m/Y") }}
-                                </span>
+                    <span class="text-muted">
+                        <i class="bi bi-clock"></i>
+                        {{ deal.creationDate|date("d/m/Y") }}
+                    </span>
                 </div>
             </div>
             <a class="text-strong text-m text-dark text-decoration-none mt-2 deal-title"
@@ -67,7 +67,7 @@
             <div class="d-flex flex-row justify-content-between">
                             <span>
                                 <a class="btn btn-avatar p-0 rounded-pill" href="{{ path('app_user', {'username': deal.user.name}) }}">
-                                    <img class="rounded-circle avatar-xs" src="https://static-pepper.dealabs.com/users/raw/default/1027447_1/re/240x240/qt/45/1027447_1.jpg">
+                                    <img class="rounded-circle avatar-xs" src="/img/{{ deal.user.imageName }}">
                                     <span class="text-xs text-strong me-2">{{ deal.user.name }}</span>
                                 </a>
                             </span>
