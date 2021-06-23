@@ -60,6 +60,11 @@ class User implements UserInterface
      */
     private $deals;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $imageName;
+
     public function __construct()
     {
         $this->commentsList = new ArrayCollection();
@@ -264,6 +269,18 @@ class User implements UserInterface
                 $deal->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(string $imageName): self
+    {
+        $this->imageName = $imageName;
 
         return $this;
     }
