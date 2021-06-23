@@ -17,6 +17,8 @@
             {{ form_widget(registrationForm.email, {'attr': {'class': 'mb-3 form-control' } }) }}
             {{ form_label(registrationForm.plainPassword, 'Mot de passe') }}
             {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'mb-3 form-control' } }) }}
+            {{ form_label(registrationForm.image, 'Image') }}
+            {{ form_widget(registrationForm.image, {'attr': {'class': 'mb-3 form-control' } }) }}
             <div class="col-lg-12">
                 {{ form_label(registrationForm.agreeTerms, 'J\'accepte les conditions') }}
                 {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'mb-3' } }) }}

@@ -121,3 +121,35 @@ body {
     width: 1.7em;
     height: 1.7em;
 }
+
+.deal-img {
+    width: 100%;
+    height: 10.71429em;
+}
+
+@media (min-width: 25em) {
+    .deal-img {
+        height: 12.5em;
+    }
+}
+
+@media (min-width: 34.375em) {
+    .deal-img {
+        height: auto;
+        width: 8.57143em;
+        padding: 0 .57143em 0 0;
+    }
+}
+
+@media (min-width: 48em) {
+    .deal-img {
+        width: 11.42857em;
+        padding-right: 1.14286em;
+    }
+}
+
+@media (min-width: 64em) {
+    .deal-img {
+        width: 13.71429em;
+    }
+}

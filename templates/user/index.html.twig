@@ -3,12 +3,12 @@
 {% block title %}Compte | {{ user.name }}{% endblock %}
 
 {% block body %}
-    <section style="background-image: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('https://static-pepper.dealabs.com/users/raw/default/1027447_1/re/1024w/cp/1024x1024/bl/10/qt/40/1027447_1.jpg'); background-size: cover;">
+    <section style="background-image: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('/img/{{ user.imageName }}'); background-size: cover;">
         <div class="container py-3">
             <div class="d-flex flex-row">
                 <div class="brand-avatar-container me-3">
                     <img class="rounded-circle avatar-xl"
-                            src="https://static-pepper.dealabs.com/users/raw/default/1027447_1/re/240x240/qt/45/1027447_1.jpg">
+                            src="/img/{{ user.imageName }}">
                 </div>
                 <div class="brand-info-container my-2  d-flex flex-column justify-content-center">
                     <h5 class="text-white text-m text-fit">{{ user.name }}</h5>
