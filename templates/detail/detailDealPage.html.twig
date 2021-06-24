@@ -5,21 +5,39 @@
     <div class="rounded bg-white mb-2">
         <div class="d-flex flex-column">
             <div class="d-flex p-3">
-                <div class="w-25 me-3">
-                    <img src="./assets/images/crossimg.png" alt="">
+                <div class="w-25 my-auto me-3">
+                    <img class="deal-img" src="/img/{{ deal.imageName }}" alt="">
                 </div>
                 <div class="w-75 d-flex flex-column">
                     <div class="d-flex flex-row justify-content-between">
-                        <div class="border rounded">
-                            <button class="btn rounded-circle text-info px-2 py-0">
-                                <i class="bi bi-dash-lg"></i>
-                            </button>
-                            <span class="px-2 text-danger text-strong text-m">
+                        <div id="vote{{ deal.id }}" class="border rounded ">
+                            {% if app.user and app.user.votedFor(deal) %}
+                                {% if app.user.getNotationFor(deal) == -1 %}
+                                    <button disabled class="btn btn-vote rounded-circle text-black-50 text-info p-0">
+                                        <i class="bi bi-dash-lg"></i>
+                                    </button>
+                                {% endif %}
+                                <span class="px-2 text-danger text-strong text-m">
+                                    {{ deal.degree }}°
+                                </span>
+                                {% if app.user.getNotationFor(deal) == 1 %}
+                                    <button disabled class="btn btn-vote rounded-circle text-black-50 p-0">
+                                        <i class="bi bi-plus-lg"></i>
+                                    </button>
+                                {% endif %}
+                            {% else %}
+                                <button data-id="{{ deal.id }}"
+                                        class="btn degreeMoins btn-vote rounded-circle text-info p-0">
+                                    <i class="bi bi-dash-lg"></i>
+                                </button>
+                                <span class="px-2 text-danger text-strong text-m">
                                         {{ deal.degree }}°
                                     </span>
-                            <button class="btn rounded-circle text-danger px-2 py-0">
-                                <i class="bi bi-plus-lg"></i>
-                            </button>
+                                <button data-id="{{ deal.id }}"
+                                        class="btn degreePlus btn-vote rounded-circle text-danger p-0">
+                                    <i class="bi bi-plus-lg"></i>
+                                </button>
+                            {% endif %}
                         </div>
                         <div class="my-auto">
                                 <span class="text-muted text-xs">
@@ -50,8 +68,8 @@
                     </div>
                     <div class="d-flex flex-row justify-content-between mt-4">
                         <span>
-                            <a class="btn btn-avatar p-0 rounded-pill">
-                                <img class="rounded-circle avatar-xs" src="https://static-pepper.dealabs.com/users/raw/default/1027447_1/re/240x240/qt/45/1027447_1.jpg">
+                            <a class="btn btn-avatar p-0 rounded-pill" href="{{ path('app_user', {'username': deal.user.name}) }}">
+                                <img class="rounded-circle avatar-xs" src="/img/{{ deal.user.imageName }}">
                                 <span class="text-xs text-strong me-2">{{ deal.user.name }}</span>
                             </a>
                         </span>
@@ -96,11 +114,14 @@
         {% for c in comments %}
             <div class="d-flex flex-row py-3 px-4">
                 <div class="me-3">
-                    <img class="avatar-m rounded-circle" src="https://static-pepper.dealabs.com/users/raw/default/1027447_1/re/240x240/qt/45/1027447_1.jpg">
+                    <img class="avatar-m rounded-circle" src="/img/{{ c.user.imageName }}">
                 </div>
                 <div class="d-flex flex-column">
                     <div class="d-flex flex-row">
-                        <a class="text-strong text-dark text-decoration-none text-xs border border-white btn-avatar-without-img rounded-pill px-2"> {{ c.user.name}} </a>
+                        <a class="text-strong text-dark text-decoration-none text-xs border border-white btn-avatar-without-img rounded-pill px-2"
+                           href="{{ path('app_user', {'username': c.user.name}) }}">
+                            {{ c.user.name}} 
+                        </a>
                         <span class="text-xs text-black-50 ms-2"> {{ c.creationDate|date("d/m/Y")}}</span>
                     </div>
                     <div class="px-2 mt-2 text-break">{{  c.description }}</div>
@@ -111,7 +132,7 @@
             <span class="py-2 px-4 text-s text-strong">Laisser un commentaire</span>
             <div class="d-flex flex-column py-3 px-4">
                 <div class="d-flex form-comment">
-                    <img class="avatar-m rounded-circle me-2" src="https://static-pepper.dealabs.com/users/raw/default/1027447_1/re/240x240/qt/45/1027447_1.jpg">
+                    <img class="avatar-m rounded-circle me-2" src="/img/{{ app.user.imageName }}">
                     {{ form_start(form) }}
                         {{ form_row(form.description,{ label: ' ' }) }}
                         <button type="submit" class="btn btn-primary text-white text-s text-strong ms-auto">

@@ -50,26 +50,26 @@
                 <div class="dropdown">
                     <button type="button" class="btn p-0 rounded-circle me-2" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
                         <img class="rounded-circle avatar-s"
-                             src="https://static-pepper.dealabs.com/users/raw/default/1027447_1/re/240x240/qt/45/1027447_1.jpg">
+                             src="/img/{{ app.user.imageName }}">
                     </button>
                     <ul class="dropdown-menu border border-1 border-primary p-0" aria-labelledby="dropdownUser">
                         <li>
                             <label class="dropdown-header p-2 bg-primary text-center text-white text-s text-fit">{{ app.user.name }}</label>
                         </li>
                         <li>
-                            <a class="dropdown-item py-2 px-4" href="{{ path('app_user') }}">
+                            <a class="dropdown-item py-2 px-4" href="{{ path('app_user', {'username': app.user.name}) }}">
                                 <i class="bi bi-person-fill me-2"></i>
                                 Aperçu de l'activité
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item py-2 px-4" href="{{ path('app_user_deals') }}">
+                            <a class="dropdown-item py-2 px-4" href="{{ path('app_user', {'username': app.user.name}) }}#deals">
                                 <i class="bi bi-tag-fill me-2"></i>
                                 Deals postés
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item py-2 px-4" href="{{ path('app_user_deals') }}">
+                            <a class="dropdown-item py-2 px-4" href="{{ path('app_user', {'username': app.user.name}) }}#savedDeals">
                                 <i class="bi bi-bookmark-fill me-2"></i>
                                 Deals sauvegardés
                             </a>
@@ -82,8 +82,6 @@
                         </li>
                     </ul>
                 </div>
-                {% endif %}
-
                 <div class="dropdown">
                     <button class="btn btn-primary text-white text-strong text-s" type="button" id="dropdownAction" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-plus-lg me-2"></i>Poster...
@@ -103,6 +101,8 @@
                         </li>
                     </ul>
                 </div>
+                {% endif %}
+
                 {% if app.user is empty %}
                     <a type="button" class="btn btn-outline-secondary m-2" href="{{ path('app_login') }}"><i class="bi bi-person-fill"></i>Connexion</a>
                     <a type="button" class="btn btn-outline-secondary " href="{{ path('app_register') }}">Pas de compte ?</a>

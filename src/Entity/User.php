@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -58,6 +59,11 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity=Deal::class, mappedBy="user")
      */
     private $deals;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $imageName;
 
     public function __construct()
     {
@@ -219,6 +225,24 @@ class User implements UserInterface
         return $this;
     }
 
+    public function votedFor(Deal $deal): bool
+    {
+        foreach ($this->votesList as $vote) {
+            if($vote->getDeal() === $deal)
+                return true;
+        }
+        return false;
+    }
+
+    public function getNotationFor(Deal $deal): int
+    {
+        foreach ($this->votesList as $vote) {
+            if($vote->getDeal() === $deal)
+                return $vote->getNotation();
+        }
+        return 0;
+    }
+
     /**
      * @return Collection|Deal[]
      */
@@ -245,6 +269,18 @@ class User implements UserInterface
                 $deal->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(string $imageName): self
+    {
+        $this->imageName = $imageName;
 
         return $this;
     }

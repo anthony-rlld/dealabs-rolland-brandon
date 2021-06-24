@@ -1,7 +1,4 @@
-{% extends 'user/index.html.twig' %}
-
 {%  block body %}
-    {{ parent() }}
     <div class="container d-flex flex-row my-2 p-0">
         <div class="w-25 d-flex flex-column bg-white rounded-2 me-2 h-min-content">
             <div class="m-3">
@@ -9,8 +6,8 @@
             </div>
             <div class="mx-3 my-1 d-flex flex-column">
                 <p class="text-black-50">Posts</p>
-                <p class="ms-2"><i class="bi bi-tag-fill"></i> <strong>{{ app.user.deals.count }}</strong> <label class="text-xs text-black-50">deal</label></p>
-                <p class="ms-2"><i class="bi bi-chat-fill"></i> <strong>{{ app.user.commentsList.count }}</strong> <label class="text-xs text-black-50">commentaire</label></p>
+                <p class="ms-2"><i class="bi bi-tag-fill"></i> <strong>{{ user.deals.count }}</strong> <label class="text-xs text-black-50">deal</label></p>
+                <p class="ms-2"><i class="bi bi-chat-fill"></i> <strong>{{ user.commentsList.count }}</strong> <label class="text-xs text-black-50">commentaire</label></p>
             </div>
             <div class="mx-3 my-1 d-flex flex-column">
                 <p class="text-black-50">Palmarès</p>

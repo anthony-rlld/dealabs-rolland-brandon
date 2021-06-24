@@ -43,33 +43,28 @@ class DealController extends AbstractController
      */
     public function doDegree(int $id, int $degree)
     {
-        $testVote = $this->getDoctrine()->getRepository(Vote::class)
-                                        ->findBy(array(
-                                            "user"=>$this->getUser(),
-                                            "deal"=>$id
-                                            ));
+        $testVote = $this->getDoctrine()
+            ->getRepository(Vote::class)
+            ->findBy(array("user"=>$this->getUser(), "deal"=>$id));
 
         if ($testVote != null){
             return new Response("Le user a deja voté",Response::HTTP_UNAUTHORIZED);
-        }else{
-
-            $deal =  $this->getDoctrine()->getRepository(Deal::class)->find($id);
-            $vote = new Vote();
-
-            $deal->setDegree($deal->getDegree() + $degree);
-
-            $vote->setDeal($deal);
-            $vote->setNotation($degree);
-            $vote->setUser($this->getUser());
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($deal);
-            $entityManager->persist($vote);
-            $entityManager->flush();
-            $response = new Response("OK",Response::HTTP_CREATED);
-            $response->setContent($deal->getDegree());
-            return $response;
         }
+
+        $deal =  $this->getDoctrine()->getRepository(Deal::class)->find($id);
+        $deal->setDegree($deal->getDegree() + $degree);
+
+        $vote = new Vote();
+        $vote->setDeal($deal);
+        $vote->setNotation($degree);
+        $vote->setUser($this->getUser());
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($deal);
+        $entityManager->persist($vote);
+        $entityManager->flush();
+
+        return $this->json(['id' => $deal->getId(), 'degree' => $deal->getDegree()],Response::HTTP_CREATED);
     }
 
     private function createCommentForm(Request $request, Deal $deal): FormInterface

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Deal;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,18 +11,28 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/user", name="app_user")
+     * @Route("/user/{username}", name="app_user")
+     * @param string $username
+     * @return Response
      */
-    public function index(): Response
+    public function index(string $username): Response
     {
-        $maxDegree = $this->GetMaxDegree();
-        $moyDegree = $this->GetMoyenneDegree();
-        $percentHot = $this->GetPercentHot();
-        return $this->render('user/statistiques.html.twig', [
-            'controller_name' => 'UserController',
+        $userToVisite = $this->getDoctrine()
+                ->getRepository(User::class)
+                ->findby(array("name" => $username))[0];
+        $visit = !($this->getUser() && $userToVisite->getId() === $this->getUser()->getId());
+
+        $maxDegree = $this->GetMaxDegree($userToVisite);
+        $moyDegree = $this->GetMoyenneDegree($userToVisite);
+        $percentHot = $this->GetPercentHot($userToVisite);
+        $createdDeals = $userToVisite->getDeals();
+        return $this->render('user/index.html.twig', [
+            'user' => $userToVisite,
             'maxDegree' => $maxDegree,
             'moyDegree' => $moyDegree,
-            'percentHot' => $percentHot
+            'percentHot' => $percentHot,
+            'createdDeals' => $createdDeals,
+            'visit' => $visit
         ]);
     }
 
@@ -36,35 +47,38 @@ class UserController extends AbstractController
     }
 
     /**
+     * @param User $user
      * @return int|mixed
      */
-    private function GetMaxDegree(): int
+    private function GetMaxDegree(User $user): int
     {
         $res = $this->getDoctrine()->getRepository(Deal::class)
-            ->findMaxDegreeByUser($this->getUser()->getId());
+            ->findMaxDegreeByUser($user->getId());
 
         return isset($res[0]['maxDegree']) ? $res[0]['maxDegree'] : 0;
     }
 
     /**
+     * @param User $user
      * @return int|mixed
      */
-    private function GetMoyenneDegree(): int
+    private function GetMoyenneDegree(User $user): int
     {
         $res = $this->getDoctrine()->getRepository(Deal::class)
-            ->findMoyenneDegreeByUser($this->getUser()->getId());
+            ->findMoyenneDegreeByUser($user->getId());
 
         return isset($res[0]['moyDegree']) ? $res[0]['moyDegree'] : 0;
     }
 
     /**
+     * @param User $user
      * @return int|mixed
      */
-    private function GetPercentHot(): int
+    private function GetPercentHot(User $user): int
     {
         $res = $this->getDoctrine()->getRepository(Deal::class)
-            ->findHowManyHotByUser($this->getUser()->getId(), 100);
-        $nbDeal = $this->getUser()->getDeals()->count();
+            ->findHowManyHotByUser($user->getId(), 100);
+        $nbDeal = $user->getDeals()->count();
 
         return $res[0]['nbHot'] > 0 ? ($res[0]['nbHot']/$nbDeal)*100 : 0;
     }

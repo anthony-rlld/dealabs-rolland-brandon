@@ -1,80 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-<div class="container flex-row my-2 px-5">
-    {% for deal in deals %}
-        <article class="rounded bg-white mb-2 mx-5">
-            <div class="d-flex p-3">
-                <div class="w-25 me-3">
-                    <img src="./assets/images/crossimg.png" alt="">
-                </div>
-                <div class="w-75 d-flex flex-column">
-                    <div class="d-flex flex-row justify-content-between">
-                        <div class="border rounded">
-                            <button class="btn rounded-circle text-info px-2 py-0">
-                                <i class="bi bi-dash-lg"></i>
-                            </button>
-                            <span class="px-2 text-danger text-strong text-m">
-                            {{ deal.degree }}°
-                        </span>
-                            <button class="btn rounded-circle text-danger px-2 py-0">
-                                <i class="bi bi-plus-lg"></i>
-                            </button>
-                        </div>
-                        <div class="my-auto">
-                        <span class="text-muted">
-                            <i class="bi bi-clock"></i>
-                            {{ deal.creationDate|date("d/m/Y") }}
-                        </span>
-                        </div>
-                    </div>
-                    <a class="text-strong text-m text-dark text-decoration-none mt-2 deal-title"
-                       href="{{ path('app_dealdetail',{'id': deal.id}) }}">
-                        {{ deal.title }}
-                    </a>
-                    <div class="d-flex flex-row">
-                        {% if deal.actualPrice is defined %}
-                            <span class="text-danger text-strong text-m">{{ deal.newPrice }}€</span>
-                            <span class="text-muted text-m text-break deal-old-price ms-2">{{ deal.actualPrice }}€</span>
-                        {% endif %}
-                        {% if deal.amount is defined %}
-                            <span class="text-danger text-strong text-m">-{{ deal.amount }}{{ deal.reductionType }}</span>
-                        {% endif %}
-                        {% if deal.freeDelivery is defined %}
-                            {% if deal.freeDelivery %}
-                                <span class="text-muted text-xs ms-2">
-                                <i class="bi bi-truck text-m"></i>
-                                Gratuit
-                            </span>
-                            {% endif %}
-                        {% endif %}
-                    </div>
-                    <p class="text-xs mt-2">{{ deal.description }}</p>
-                    <div class="d-flex flex-row justify-content-between">
-                    <span>
-                        <a class="btn btn-avatar p-0 rounded-pill">
-                            <img class="rounded-circle avatar-xs" src="https://static-pepper.dealabs.com/users/raw/default/1027447_1/re/240x240/qt/45/1027447_1.jpg">
-                            <span class="text-xs text-strong me-2">{{ deal.user.name }}</span>
-                        </a>
-                    </span>
-                        <div class="d-flex flex-row">
-                            <a class="btn border">
-                                <i class="bi bi-bookmark-fill"></i>
-                            </a>
-                            <a class="btn border ms-2" href="{{ path('app_dealdetail',{'id': deal.id}) }}#comments">
-                                <i class="bi bi-chat-fill me-1"></i>
-                                {{ deal.commentsList.count }}
-                            </a>
-                            <a class="btn btn-primary ms-2 text-white text-strong text-s" href="{{ path('app_dealdetail',{'id': deal.id}) }}">
-                                Voir le deal
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </article>
-    {% endfor %}
-</div>
-
+    <div class="container flex-row my-2 px-5">
+        {% for deal in deals %}
+            {% embed "commun/deal.html.twig" %}{% endembed %}
+        {% endfor %}
+    </div>
 {% endblock %}
