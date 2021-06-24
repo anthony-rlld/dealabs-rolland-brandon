@@ -92,4 +92,13 @@ class DealController extends AbstractController
         return $form;
     }
 
+    /**
+     * @Route("/deals/{id}/save", name="app_saveDeal")
+     * @param int $id
+     */
+    private function saveDeal(int $id)
+    {
+
+    }
+
 }
