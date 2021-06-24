@@ -89,11 +89,16 @@ class DealController extends AbstractController
 
     /**
      * @Route("/deals/{id}/save", name="app_saveDeal")
-     * @param int $id
+     * @param Deal $deal
      */
-    private function saveDeal(int $id)
+    public function saveDeal(Deal $deal)
     {
-
+        $user = $this->getUser();
+        $user->addDealsSaved($deal);
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($deal);
+        $manager->flush();
+        return $this->json(['id' => $deal->getId()],Response::HTTP_CREATED);
     }
 
 }

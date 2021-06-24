@@ -26,3 +26,4 @@ global.Routing = Routing;
 
 import ('./js/degree.js');
 import ('./js/activateTab');
+import ('./js/savedDeal.js');

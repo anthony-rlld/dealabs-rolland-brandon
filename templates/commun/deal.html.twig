@@ -72,9 +72,9 @@
                                 </a>
                             </span>
                 <div class="d-flex flex-row">
-                    <a class="btn border">
+                    <button id="saveDeal{{ deal.id }}" data-id="{{ deal.id }}" class="btn border saveDeal">
                         <i class="bi bi-bookmark-fill"></i>
-                    </a>
+                    </button>
                     <a class="btn border ms-2" href="{{ path('app_dealdetail',{'id': deal.id}) }}#comments">
                         <i class="bi bi-chat-fill me-1"></i>
                         {{ deal.commentsList.count }}

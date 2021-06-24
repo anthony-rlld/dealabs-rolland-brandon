@@ -34,7 +34,7 @@
                     <a class="nav-link text-black-50 text-strong text-s" id="savedDeals"
                        data-bs-toggle="tab" data-bs-target="#savedDeals-nav" type="button"
                        role="tab" aria-controls="savedDeals-nav" aria-selected="false">
-                        Deals enregistrés (0)
+                        Deals enregistrés ({{ user.dealsSaved.count }})
                     </a>
                 {% endif %}
             </div>
