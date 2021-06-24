@@ -65,11 +65,17 @@ class User implements UserInterface
      */
     private $imageName;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Badge::class, mappedBy="users")
+     */
+    private $badges;
+
     public function __construct()
     {
         $this->commentsList = new ArrayCollection();
         $this->votesList = new ArrayCollection();
         $this->deals = new ArrayCollection();
+        $this->badges = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -281,6 +287,33 @@ class User implements UserInterface
     public function setImageName(string $imageName): self
     {
         $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Badge[]
+     */
+    public function getBadges(): Collection
+    {
+        return $this->badges;
+    }
+
+    public function addBadge(Badge $badge): self
+    {
+        if (!$this->badges->contains($badge)) {
+            $this->badges[] = $badge;
+            $badge->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBadge(Badge $badge): self
+    {
+        if ($this->badges->removeElement($badge)) {
+            $badge->removeUser($this);
+        }
 
         return $this;
     }
