@@ -5,8 +5,7 @@ $(document).ready(function (){
         $.ajax({
             url: Routing.generate("app_saveDeal",{ id: $(this).attr("data-id") }),
             success: function (response){
-                $("#saveDeal" + response.id).attr('class','btn-info')
-                                            .load(window.location.href + " #saveDeal" + response.id );
+                $("#saveDeal" + response.id).addClass('bg-primary text-white');
             }
         });
     });

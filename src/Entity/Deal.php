@@ -289,4 +289,9 @@ abstract class Deal
 
         return $this;
     }
+
+    public function isSavedBy(User $user): bool
+    {
+        return $this->usersSaved->contains($user);
+    }
 }
