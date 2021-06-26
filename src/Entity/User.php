@@ -317,4 +317,13 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function hasBadge(int $idBadge): bool
+    {
+        foreach ($this->badges as $badge) {
+            if($badge->getId() === $idBadge)
+                return true;
+        }
+        return false;
+    }
 }
