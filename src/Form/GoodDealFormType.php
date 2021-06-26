@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,7 +26,7 @@ class GoodDealFormType extends AbstractType
                 'label' => 'Titre :',
                 'attr' => array('class'=> 'form-control mb-2')
             ])
-            ->add('description', TextType::class,[
+            ->add('description', TextareaType::class,[
                 'required' => true,
                 'label' => 'Description :',
                 'attr' => array('class'=> 'form-control mb-2')

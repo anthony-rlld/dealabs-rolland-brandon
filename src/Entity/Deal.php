@@ -30,7 +30,7 @@ abstract class Deal
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text", length=65535)
      */
     private $description;
 

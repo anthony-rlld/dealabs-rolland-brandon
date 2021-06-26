@@ -66,6 +66,11 @@ class User implements UserInterface
     private $imageName;
 
     /**
+     * @ORM\ManyToMany(targetEntity=Badge::class, mappedBy="users")
+     */
+    private $badges;
+
+    /**
      * @ORM\ManyToMany(targetEntity=Deal::class, inversedBy="usersSaved")
      */
     private $dealsSaved;
@@ -75,6 +80,7 @@ class User implements UserInterface
         $this->commentsList = new ArrayCollection();
         $this->votesList = new ArrayCollection();
         $this->deals = new ArrayCollection();
+        $this->badges = new ArrayCollection();
         $this->dealsSaved = new ArrayCollection();
     }
 
@@ -292,6 +298,24 @@ class User implements UserInterface
     }
 
     /**
+     * @return Collection|Badge[]
+     */
+    public function getBadges(): Collection
+    {
+        return $this->badges;
+    }
+
+    public function addBadge(Badge $badge): self
+    {
+        if (!$this->badges->contains($badge)) {
+            $this->badges[] = $badge;
+            $badge->addUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
      * @return Collection|Deal[]
      */
     public function getDealsSaved(): Collection
@@ -306,6 +330,24 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    public function removeBadge(Badge $badge): self
+    {
+        if ($this->badges->removeElement($badge)) {
+            $badge->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    public function hasBadge(int $idBadge): bool
+    {
+        foreach ($this->badges as $badge) {
+            if($badge->getId() === $idBadge)
+                return true;
+        }
+        return false;
     }
 
     public function removeDealsSaved(Deal $dealsSaved): self

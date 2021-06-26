@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\GoodDeal;
+use App\Events;
 use App\Form\GoodDealFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface as EventDispatcher;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,9 +19,10 @@ class GoodDealFormController extends AbstractController
     /**
      * @Route("/gooddeals/add",name="app_gooddealform")
      * @param Request $request
+     * @param EventDispatcher $eventDispatcher
      * @return Response
      */
-    public function addGoodDeal(Request $request): Response
+    public function addGoodDeal(Request $request, EventDispatcher $eventDispatcher): Response
     {
         $goodDeal = new GoodDeal();
 
@@ -47,6 +51,9 @@ class GoodDealFormController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($goodDeal);
             $entityManager->flush();
+
+            $event = new GenericEvent($this->getUser(), ["Manager"=>$entityManager]);
+            $eventDispatcher->dispatch( $event, Events::VALIDATED_COBAYE_BADGE);
 
             return $this->redirectToRoute('home');
         }
