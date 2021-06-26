@@ -8,6 +8,7 @@ use App\Entity\Vote;
 use App\Form\CommentFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,6 +41,7 @@ class DealController extends AbstractController
      * @Route("/deals/{id}/degree/{degree}", options={"expose"= true}, name="app_degree")
      * @param int $id
      * @param int $degree
+     * @return JsonResponse|Response
      */
     public function doDegree(int $id, int $degree)
     {
@@ -85,6 +87,22 @@ class DealController extends AbstractController
         }
 
         return $form;
+    }
+
+    /**
+     * @Route("/deals/{id}/save", options={"expose"= true}, name="app_saveDeal")
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function saveDeal(int $id)
+    {
+        $user = $this->getUser();
+        $deal = $this->getDoctrine()->getRepository(Deal::class)->find($id);
+        $user->addDealsSaved($deal);
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($deal);
+        $manager->flush();
+        return $this->json(['id' => $deal->getId()],Response::HTTP_CREATED);
     }
 
 }

@@ -75,12 +75,18 @@ abstract class Deal
      */
     private $imageName;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="dealsSaved")
+     */
+    private $usersSaved;
+
 
     public function __construct()
     {
         $this->commentsList = new ArrayCollection();
         $this->votesList = new ArrayCollection();
         $this->groupList = new ArrayCollection();
+        $this->usersSaved = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -255,5 +261,37 @@ abstract class Deal
         $this->imageName = $imageName;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsersSaved(): Collection
+    {
+        return $this->usersSaved;
+    }
+
+    public function addUsersSaved(User $usersSaved): self
+    {
+        if (!$this->usersSaved->contains($usersSaved)) {
+            $this->usersSaved[] = $usersSaved;
+            $usersSaved->addDealsSaved($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUsersSaved(User $usersSaved): self
+    {
+        if ($this->usersSaved->removeElement($usersSaved)) {
+            $usersSaved->removeDealsSaved($this);
+        }
+
+        return $this;
+    }
+
+    public function isSavedBy(User $user): bool
+    {
+        return $this->usersSaved->contains($user);
     }
 }

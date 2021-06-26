@@ -65,11 +65,17 @@ class User implements UserInterface
      */
     private $imageName;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Deal::class, inversedBy="usersSaved")
+     */
+    private $dealsSaved;
+
     public function __construct()
     {
         $this->commentsList = new ArrayCollection();
         $this->votesList = new ArrayCollection();
         $this->deals = new ArrayCollection();
+        $this->dealsSaved = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -281,6 +287,30 @@ class User implements UserInterface
     public function setImageName(string $imageName): self
     {
         $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Deal[]
+     */
+    public function getDealsSaved(): Collection
+    {
+        return $this->dealsSaved;
+    }
+
+    public function addDealsSaved(Deal $dealsSaved): self
+    {
+        if (!$this->dealsSaved->contains($dealsSaved)) {
+            $this->dealsSaved[] = $dealsSaved;
+        }
+
+        return $this;
+    }
+
+    public function removeDealsSaved(Deal $dealsSaved): self
+    {
+        $this->dealsSaved->removeElement($dealsSaved);
 
         return $this;
     }

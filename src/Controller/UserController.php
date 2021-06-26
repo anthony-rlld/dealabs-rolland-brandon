@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Deal;
 use App\Entity\User;
+use http\Env\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,12 +27,14 @@ class UserController extends AbstractController
         $moyDegree = $this->GetMoyenneDegree($userToVisite);
         $percentHot = $this->GetPercentHot($userToVisite);
         $createdDeals = $userToVisite->getDeals();
+        $savedDeals = $userToVisite->getDealsSaved();
         return $this->render('user/index.html.twig', [
             'user' => $userToVisite,
             'maxDegree' => $maxDegree,
             'moyDegree' => $moyDegree,
             'percentHot' => $percentHot,
             'createdDeals' => $createdDeals,
+            'savedDeals' => $savedDeals,
             'visit' => $visit
         ]);
     }
