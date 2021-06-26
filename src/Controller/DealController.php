@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface as EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,6 +45,7 @@ class DealController extends AbstractController
      * @param int $id
      * @param int $degree
      * @param EventDispatcher $eventDispatcher
+     * @return JsonResponse|Response
      */
     public function doDegree(int $id, int $degree, EventDispatcher $eventDispatcher)
     {
@@ -97,6 +99,22 @@ class DealController extends AbstractController
         }
 
         return $form;
+    }
+
+    /**
+     * @Route("/deals/{id}/save", options={"expose"= true}, name="app_saveDeal")
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function saveDeal(int $id)
+    {
+        $user = $this->getUser();
+        $deal = $this->getDoctrine()->getRepository(Deal::class)->find($id);
+        $user->addDealsSaved($deal);
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($deal);
+        $manager->flush();
+        return $this->json(['id' => $deal->getId()],Response::HTTP_CREATED);
     }
 
 }

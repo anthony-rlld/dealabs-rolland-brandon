@@ -1,3 +1,7 @@
 {%  block body %}
-    <h1>Coucou</h1>
+    <div class="container flex-row my-2 px-5">
+        {% for deal in savedDeals %}
+            {% embed "commun/deal.html.twig" %}{% endembed %}
+        {% endfor %}
+    </div>
 {% endblock %}

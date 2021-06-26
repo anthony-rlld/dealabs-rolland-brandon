@@ -70,12 +70,18 @@ class User implements UserInterface
      */
     private $badges;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Deal::class, inversedBy="usersSaved")
+     */
+    private $dealsSaved;
+
     public function __construct()
     {
         $this->commentsList = new ArrayCollection();
         $this->votesList = new ArrayCollection();
         $this->deals = new ArrayCollection();
         $this->badges = new ArrayCollection();
+        $this->dealsSaved = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -309,6 +315,23 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return Collection|Deal[]
+     */
+    public function getDealsSaved(): Collection
+    {
+        return $this->dealsSaved;
+    }
+
+    public function addDealsSaved(Deal $dealsSaved): self
+    {
+        if (!$this->dealsSaved->contains($dealsSaved)) {
+            $this->dealsSaved[] = $dealsSaved;
+        }
+
+        return $this;
+    }
+
     public function removeBadge(Badge $badge): self
     {
         if ($this->badges->removeElement($badge)) {
@@ -325,5 +348,12 @@ class User implements UserInterface
                 return true;
         }
         return false;
+    }
+
+    public function removeDealsSaved(Deal $dealsSaved): self
+    {
+        $this->dealsSaved->removeElement($dealsSaved);
+
+        return $this;
     }
 }
