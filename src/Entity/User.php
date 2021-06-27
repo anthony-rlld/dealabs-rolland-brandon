@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -59,11 +60,28 @@ class User implements UserInterface
      */
     private $deals;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $imageName;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Badge::class, mappedBy="users")
+     */
+    private $badges;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Deal::class, inversedBy="usersSaved")
+     */
+    private $dealsSaved;
+
     public function __construct()
     {
         $this->commentsList = new ArrayCollection();
         $this->votesList = new ArrayCollection();
         $this->deals = new ArrayCollection();
+        $this->badges = new ArrayCollection();
+        $this->dealsSaved = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -219,6 +237,24 @@ class User implements UserInterface
         return $this;
     }
 
+    public function votedFor(Deal $deal): bool
+    {
+        foreach ($this->votesList as $vote) {
+            if($vote->getDeal() === $deal)
+                return true;
+        }
+        return false;
+    }
+
+    public function getNotationFor(Deal $deal): int
+    {
+        foreach ($this->votesList as $vote) {
+            if($vote->getDeal() === $deal)
+                return $vote->getNotation();
+        }
+        return 0;
+    }
+
     /**
      * @return Collection|Deal[]
      */
@@ -245,6 +281,78 @@ class User implements UserInterface
                 $deal->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(string $imageName): self
+    {
+        $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Badge[]
+     */
+    public function getBadges(): Collection
+    {
+        return $this->badges;
+    }
+
+    public function addBadge(Badge $badge): self
+    {
+        if (!$this->badges->contains($badge)) {
+            $this->badges[] = $badge;
+            $badge->addUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Deal[]
+     */
+    public function getDealsSaved(): Collection
+    {
+        return $this->dealsSaved;
+    }
+
+    public function addDealsSaved(Deal $dealsSaved): self
+    {
+        if (!$this->dealsSaved->contains($dealsSaved)) {
+            $this->dealsSaved[] = $dealsSaved;
+        }
+
+        return $this;
+    }
+
+    public function removeBadge(Badge $badge): self
+    {
+        if ($this->badges->removeElement($badge)) {
+            $badge->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    public function hasBadge(int $idBadge): bool
+    {
+        foreach ($this->badges as $badge) {
+            if($badge->getId() === $idBadge)
+                return true;
+        }
+        return false;
+    }
+
+    public function removeDealsSaved(Deal $dealsSaved): self
+    {
+        $this->dealsSaved->removeElement($dealsSaved);
 
         return $this;
     }

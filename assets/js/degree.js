@@ -1,21 +1,21 @@
 $(document).ready(function (){
 
-    $("#degreePlus").on('click',function (){
+    $(".degreePlus").on('click',function (){
 
-       $.ajax({
+        $.ajax({
             url: Routing.generate("app_degree",{ id: $(this).attr("data-id"), degree: 1 }),
             success: function (response){
-                $("#valDegree").text(response+"°");
+                $("#vote" + response.id).load(window.location.href + " #vote" + response.id );
             }
-       });
+        });
     });
 
-    $("#degreeMoins").on('click',function (){
+    $(".degreeMoins").on('click',function (){
 
         $.ajax({
             url: Routing.generate("app_degree",{ id: $(this).attr("data-id"), degree: -1 }),
             success: function (response){
-                $("#valDegree").text(response+"°");
+                $("#vote" + response.id).load(window.location.href + " #vote" + response.id );
             }
         });
     });

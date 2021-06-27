@@ -30,7 +30,7 @@ abstract class Deal
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text", length=65535)
      */
     private $description;
 
@@ -70,12 +70,23 @@ abstract class Deal
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $imageName;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="dealsSaved")
+     */
+    private $usersSaved;
+
 
     public function __construct()
     {
         $this->commentsList = new ArrayCollection();
         $this->votesList = new ArrayCollection();
         $this->groupList = new ArrayCollection();
+        $this->usersSaved = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -238,5 +249,49 @@ abstract class Deal
         $this->user = $user;
 
         return $this;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(string $imageName): self
+    {
+        $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsersSaved(): Collection
+    {
+        return $this->usersSaved;
+    }
+
+    public function addUsersSaved(User $usersSaved): self
+    {
+        if (!$this->usersSaved->contains($usersSaved)) {
+            $this->usersSaved[] = $usersSaved;
+            $usersSaved->addDealsSaved($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUsersSaved(User $usersSaved): self
+    {
+        if ($this->usersSaved->removeElement($usersSaved)) {
+            $usersSaved->removeDealsSaved($this);
+        }
+
+        return $this;
+    }
+
+    public function isSavedBy(User $user): bool
+    {
+        return $this->usersSaved->contains($user);
     }
 }

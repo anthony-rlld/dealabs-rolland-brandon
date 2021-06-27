@@ -5,9 +5,13 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Deal;
 use App\Entity\Vote;
+use App\Events;
 use App\Form\CommentFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface as EventDispatcher;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,12 +24,12 @@ class DealController extends AbstractController
      * @param int $id
      * @return Response
      */
-    public function index(Request $request, int $id): Response
+    public function index(Request $request, int $id, EventDispatcher $eventDispatcher): Response
     {
         $deal =  $this->getDoctrine()->getRepository(Deal::class)->find($id);
         $comments = $deal->getCommentsList();
 
-        $form = $this->createCommentForm($request, $deal);
+        $form = $this->createCommentForm($request, $deal, $eventDispatcher);
 
         return $this->render('detail/detailDealPage.html.twig', [
             'controller_name' => 'DealController',
@@ -40,39 +44,40 @@ class DealController extends AbstractController
      * @Route("/deals/{id}/degree/{degree}", options={"expose"= true}, name="app_degree")
      * @param int $id
      * @param int $degree
+     * @param EventDispatcher $eventDispatcher
+     * @return JsonResponse|Response
      */
-    public function doDegree(int $id, int $degree)
+    public function doDegree(int $id, int $degree, EventDispatcher $eventDispatcher)
     {
-        $testVote = $this->getDoctrine()->getRepository(Vote::class)
-                                        ->findBy(array(
-                                            "user"=>$this->getUser(),
-                                            "deal"=>$id
-                                            ));
+        $testVote = $this->getDoctrine()
+            ->getRepository(Vote::class)
+            ->findBy(array("user"=>$this->getUser(), "deal"=>$id));
 
         if ($testVote != null){
             return new Response("Le user a deja voté",Response::HTTP_UNAUTHORIZED);
-        }else{
-
-            $deal =  $this->getDoctrine()->getRepository(Deal::class)->find($id);
-            $vote = new Vote();
-
-            $deal->setDegree($deal->getDegree() + $degree);
-
-            $vote->setDeal($deal);
-            $vote->setNotation($degree);
-            $vote->setUser($this->getUser());
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($deal);
-            $entityManager->persist($vote);
-            $entityManager->flush();
-            $response = new Response("OK",Response::HTTP_CREATED);
-            $response->setContent($deal->getDegree());
-            return $response;
         }
+
+        $deal =  $this->getDoctrine()->getRepository(Deal::class)->find($id);
+        $deal->setDegree($deal->getDegree() + $degree);
+
+        $vote = new Vote();
+        $vote->setDeal($deal);
+        $vote->setNotation($degree);
+        $vote->setUser($this->getUser());
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($deal);
+        $entityManager->persist($vote);
+        $entityManager->flush();
+
+        $event = new GenericEvent($this->getUser(), ["Manager"=>$entityManager]);
+        $eventDispatcher->dispatch( $event, Events::VALIDATED_SUPERVISOR_BADGE);
+
+        return $this->json(['id' => $deal->getId(), 'degree' => $deal->getDegree()],Response::HTTP_CREATED);
     }
 
-    private function createCommentForm(Request $request, Deal $deal): FormInterface
+    private function createCommentForm(Request $request, Deal $deal,
+                                       EventDispatcher $eventDispatcher): FormInterface
     {
         $comment = new Comment();
         $form = $this->createForm(CommentFormType::class, $comment);
@@ -85,11 +90,31 @@ class DealController extends AbstractController
             $comment->setCreationDate(new \DateTime());
 
             $entityManager = $this->getDoctrine()->getManager();
+
+            $event = new GenericEvent($this->getUser(), ["Manager"=>$entityManager]);
+            $eventDispatcher->dispatch( $event, Events::VALIDATED_REPORT_BADGE);
+
             $entityManager->persist($comment);
             $entityManager->flush();
         }
 
         return $form;
+    }
+
+    /**
+     * @Route("/deals/{id}/save", options={"expose"= true}, name="app_saveDeal")
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function saveDeal(int $id)
+    {
+        $user = $this->getUser();
+        $deal = $this->getDoctrine()->getRepository(Deal::class)->find($id);
+        $user->addDealsSaved($deal);
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($deal);
+        $manager->flush();
+        return $this->json(['id' => $deal->getId()],Response::HTTP_CREATED);
     }
 
 }
